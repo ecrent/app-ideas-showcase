@@ -1,0 +1,28 @@
+# Credentials
+.env
+.msmtprc
+
+# Node
+node_modules/
+.next/
+out/
+dist/
+build/
+
+# Logs
+*.log
+logs/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# IDE
+.vscode/
+.idea/
+
+# Misc
+*.env.local
+*.env.development.local
+*.env.test.local
+*.env.production.local
