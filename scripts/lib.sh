@@ -78,10 +78,11 @@ current_app() {
 import json
 with open('/home/projects/app-ideas-showcase/app-tracker.json') as f:
     d = json.load(f)
-idx = d['meta']['current_app_index']
-if idx < len(d['apps']):
-    app = d['apps'][idx]
-    print(json.dumps(app))
+# Find the app that is actually in-progress
+for app in d['apps']:
+    if app['status'] == 'in-progress':
+        print(json.dumps(app))
+        break
 else:
     print('null')
 EOF

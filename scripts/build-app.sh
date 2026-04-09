@@ -89,6 +89,9 @@ Start by reading the existing scaffold in $APP_DIR, then build the app."
 LOG_FILE="$PROJECT_DIR/logs/build-$(date +%Y%m%d-%H%M%S)-$FOLDER.log"
 info "Starting Claude agent... (log: $LOG_FILE)"
 
-claude --dangerously-skip-permissions -p "$PROMPT" 2>&1 | tee "$LOG_FILE"
+claude -p "$PROMPT" \
+  --allowedTools "Bash(npm:*) Bash(npx:*) Bash(git:*) Bash(cd:*) Bash(ls:*) Bash(cat:*) Bash(mkdir:*) Read Write Edit Glob Grep" \
+  --add-dir "$PROJECT_DIR" \
+  2>&1 | tee "$LOG_FILE"
 
 success "Build session complete for $NAME (day $BUILD_DAY/$DAYS)"

@@ -8,7 +8,7 @@ working my way through all the projects from [florinpop17/app-ideas](https://git
 
 ### Tier 1
 
-- Bin2Dec
+- Bin2Dec *(in progress)*
 - Border Radius Previewer
 - Calculator
 - Christmas Lights
