@@ -9,29 +9,44 @@ function binaryToDecimal(binary: string): number | null {
 export default function App() {
   const [binary, setBinary] = useState('')
   const [error, setError] = useState('')
+  const [copied, setCopied] = useState(false)
 
   const decimal = binaryToDecimal(binary)
 
   function handleChange(value: string) {
-    setBinary(value)
-    if (value && !/^[01]*$/.test(value)) {
+    // Strip anything that isn't 0 or 1
+    const cleaned = value.replace(/[^01]/g, '')
+    if (cleaned !== value) {
       setError('Only 0 and 1 are allowed')
-    } else if (value.length > 32) {
+      setTimeout(() => setError(''), 1500)
+    }
+    if (cleaned.length > 32) {
       setError('Maximum 32 bits')
+      setBinary(cleaned.slice(0, 32))
     } else {
-      setError('')
+      setBinary(cleaned)
     }
   }
 
   function handleKeyDown(e: React.KeyboardEvent<HTMLInputElement>) {
-    // Allow control keys
     if (e.key.length > 1) return
-    // Block non-binary characters
     if (e.key !== '0' && e.key !== '1') {
       e.preventDefault()
       setError('Only 0 and 1 are allowed')
       setTimeout(() => setError(''), 1500)
     }
+  }
+
+  function handleCopy() {
+    if (decimal === null) return
+    navigator.clipboard.writeText(String(decimal))
+    setCopied(true)
+    setTimeout(() => setCopied(false), 1500)
+  }
+
+  function handleClear() {
+    setBinary('')
+    setError('')
   }
 
   return (
@@ -50,19 +65,35 @@ export default function App() {
             <label className="block text-purple-200 text-sm font-medium mb-2">
               Binary Input
             </label>
-            <input
-              type="text"
-              value={binary}
-              onChange={(e) => handleChange(e.target.value)}
-              onKeyDown={handleKeyDown}
-              placeholder="e.g. 10101010"
-              className="w-full px-4 py-3 bg-black/30 border border-white/20 rounded-lg text-white text-lg font-mono placeholder-white/30 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent transition"
-              maxLength={32}
-              autoFocus
-            />
-            {error && (
-              <p className="mt-2 text-red-400 text-sm">{error}</p>
-            )}
+            <div className="relative">
+              <input
+                type="text"
+                value={binary}
+                onChange={(e) => handleChange(e.target.value)}
+                onKeyDown={handleKeyDown}
+                placeholder="e.g. 10101010"
+                className="w-full px-4 py-3 pr-10 bg-black/30 border border-white/20 rounded-lg text-white text-lg font-mono placeholder-white/30 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent transition"
+                maxLength={32}
+                autoFocus
+              />
+              {binary && (
+                <button
+                  onClick={handleClear}
+                  className="absolute right-3 top-1/2 -translate-y-1/2 text-white/40 hover:text-white/80 transition text-xl leading-none"
+                  title="Clear"
+                >
+                  ×
+                </button>
+              )}
+            </div>
+            <div className="flex justify-between mt-1">
+              <span className={`text-sm ${error ? 'text-red-400' : 'text-transparent'}`}>
+                {error || '.'}
+              </span>
+              <span className="text-white/30 text-xs">
+                {binary.length}/32 bits
+              </span>
+            </div>
           </div>
 
           {/* Decimal Output */}
@@ -70,11 +101,26 @@ export default function App() {
             <label className="block text-purple-200 text-sm font-medium mb-2">
               Decimal Output
             </label>
-            <div className="w-full px-4 py-3 bg-black/20 border border-white/10 rounded-lg text-lg font-mono min-h-[52px] flex items-center">
+            <div
+              onClick={handleCopy}
+              className={`w-full px-4 py-3 bg-black/20 border rounded-lg text-lg font-mono min-h-[52px] flex items-center justify-between ${
+                decimal !== null
+                  ? 'border-green-500/30 cursor-pointer hover:bg-black/30 transition'
+                  : 'border-white/10'
+              }`}
+              title={decimal !== null ? 'Click to copy' : undefined}
+            >
               {decimal !== null ? (
-                <span className="text-green-400 text-2xl font-bold">{decimal.toLocaleString()}</span>
+                <span className="text-green-400 text-2xl font-bold">
+                  {decimal.toLocaleString()}
+                </span>
               ) : (
                 <span className="text-white/30">—</span>
+              )}
+              {decimal !== null && (
+                <span className="text-xs text-white/40">
+                  {copied ? '✓ copied' : 'click to copy'}
+                </span>
               )}
             </div>
           </div>
@@ -92,12 +138,20 @@ export default function App() {
                   return (
                     <div
                       key={i}
-                      className={`flex flex-col items-center px-2 py-1 rounded ${
-                        bit === '1' ? 'bg-purple-500/30' : 'bg-white/5'
+                      className={`flex flex-col items-center px-2 py-1 rounded transition-colors ${
+                        bit === '1'
+                          ? 'bg-purple-500/30 border border-purple-400/20'
+                          : 'bg-white/5 border border-transparent'
                       }`}
                     >
-                      <span className="text-white/40 text-[10px]">2<sup>{power}</sup></span>
-                      <span className={`text-lg font-mono font-bold ${bit === '1' ? 'text-purple-300' : 'text-white/30'}`}>
+                      <span className="text-white/40 text-[10px]">
+                        2<sup>{power}</sup>
+                      </span>
+                      <span
+                        className={`text-lg font-mono font-bold ${
+                          bit === '1' ? 'text-purple-300' : 'text-white/30'
+                        }`}
+                      >
                         {bit}
                       </span>
                       <span className="text-white/40 text-[10px]">{value}</span>
@@ -105,6 +159,19 @@ export default function App() {
                   )
                 })}
               </div>
+              {binary.length > 1 && (
+                <p className="text-center text-white/30 text-xs mt-2">
+                  {binary
+                    .split('')
+                    .map((bit, i) => {
+                      const power = binary.length - 1 - i
+                      return parseInt(bit) * Math.pow(2, power)
+                    })
+                    .filter((v) => v > 0)
+                    .join(' + ')}{' '}
+                  = {decimal}
+                </p>
+              )}
             </div>
           )}
 
@@ -114,13 +181,23 @@ export default function App() {
               Try these
             </label>
             <div className="flex flex-wrap gap-2">
-              {['1010', '11111111', '10000000', '1100100'].map((example) => (
+              {[
+                { bin: '1010', label: '10' },
+                { bin: '11111111', label: '255' },
+                { bin: '10000000', label: '128' },
+                { bin: '1100100', label: '100' },
+                { bin: '101010', label: '42' },
+              ].map(({ bin, label }) => (
                 <button
-                  key={example}
-                  onClick={() => { setBinary(example); setError('') }}
+                  key={bin}
+                  onClick={() => {
+                    setBinary(bin)
+                    setError('')
+                  }}
                   className="px-3 py-1 bg-white/10 hover:bg-white/20 text-purple-200 text-sm font-mono rounded-full transition"
                 >
-                  {example}
+                  {bin}
+                  <span className="text-white/40 ml-1">={label}</span>
                 </button>
               ))}
             </div>
