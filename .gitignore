@@ -13,6 +13,9 @@ build/
 *.log
 logs/
 
+# Local scripts
+scripts/
+
 # OS
 .DS_Store
 Thumbs.db
