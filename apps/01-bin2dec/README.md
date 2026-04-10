@@ -8,10 +8,11 @@ A binary-to-decimal (and decimal-to-binary) number converter. Enter a binary num
 
 **Features:**
 - Binary → Decimal and Decimal → Binary modes
-- Hexadecimal output alongside the decimal result
+- Hexadecimal and octal output alongside the decimal result
 - Live bit-breakdown with positional values and sum formula
+- Nibble grouping (4-bit spacing) for easier reading of long binary strings
 - ⇄ Swap — carry the current result to the opposite mode
-- Click-to-copy on any output value
+- Click-to-copy on any output value (decimal, binary, hex, octal)
 - Quick-example buttons for common values (42, 255, 1024, …)
 - Input validation: only `0`/`1` accepted in binary mode; max 32 bits / 4,294,967,295
 
@@ -38,5 +39,5 @@ Coming soon — [GitHub Pages](https://ecrent.github.io/app-ideas-showcase/apps/
 - [x] Scaffolded
 - [x] Core logic
 - [x] Styling
-- [x] Polish (hex output, swap, bit breakdown)
-- [ ] Deployed
+- [x] Polish (hex/octal output, swap, bit breakdown, nibble grouping)
+- [x] Complete
