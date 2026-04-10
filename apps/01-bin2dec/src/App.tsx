@@ -33,7 +33,7 @@ export default function App() {
   const [binary, setBinary] = useState('')
   const [decimal, setDecimal] = useState('')
   const [error, setError] = useState('')
-  const [copied, setCopied] = useState(false)
+  const [copied, setCopied] = useState<string | null>(null)
 
   const computedDecimal = binaryToDecimal(binary)
   const computedBinary = decimalToBinary(decimal)
@@ -84,10 +84,10 @@ export default function App() {
     }
   }
 
-  function handleCopy(text: string) {
+  function handleCopy(text: string, field: string) {
     navigator.clipboard.writeText(text)
-    setCopied(true)
-    setTimeout(() => setCopied(false), 1500)
+    setCopied(field)
+    setTimeout(() => setCopied(null), 1500)
   }
 
   function handleClear() {
@@ -196,7 +196,7 @@ export default function App() {
                   Decimal Output
                 </label>
                 <div
-                  onClick={() => computedDecimal !== null && handleCopy(String(computedDecimal))}
+                  onClick={() => computedDecimal !== null && handleCopy(String(computedDecimal), 'dec')}
                   className={`w-full px-4 py-3 bg-black/20 border rounded-lg text-lg font-mono min-h-[52px] flex items-center justify-between ${
                     computedDecimal !== null
                       ? 'border-green-500/30 cursor-pointer hover:bg-black/30 transition'
@@ -213,7 +213,7 @@ export default function App() {
                   )}
                   {computedDecimal !== null && (
                     <span className="text-xs text-white/40">
-                      {copied ? '✓ copied' : 'click to copy'}
+                      {copied === 'dec' ? '✓ copied' : 'click to copy'}
                     </span>
                   )}
                 </div>
@@ -260,7 +260,7 @@ export default function App() {
                   Binary Output
                 </label>
                 <div
-                  onClick={() => computedBinary && handleCopy(computedBinary.replace(/\s/g, ''))}
+                  onClick={() => computedBinary && handleCopy(computedBinary, 'bin')}
                   className={`w-full px-4 py-3 bg-black/20 border rounded-lg text-lg font-mono min-h-[52px] flex items-center justify-between ${
                     computedBinary
                       ? 'border-green-500/30 cursor-pointer hover:bg-black/30 transition'
@@ -277,7 +277,7 @@ export default function App() {
                   )}
                   {computedBinary && (
                     <span className="text-xs text-white/40 ml-2 shrink-0">
-                      {copied ? '✓ copied' : 'click to copy'}
+                      {copied === 'bin' ? '✓ copied' : 'click to copy'}
                     </span>
                   )}
                 </div>
@@ -289,18 +289,26 @@ export default function App() {
           {currentDecimalValue !== null && (
             <div className="mb-5 space-y-2">
               <div className="grid grid-cols-2 gap-2">
-                <div className="px-3 py-2 bg-black/20 border border-white/10 rounded-lg flex items-center gap-2">
+                <button
+                  onClick={() => handleCopy(decimalToHex(currentDecimalValue), 'hex')}
+                  title="Copy hex"
+                  className="px-3 py-2 bg-black/20 border border-white/10 rounded-lg flex items-center gap-2 hover:bg-black/30 transition text-left"
+                >
                   <span className="text-white/40 text-xs font-medium uppercase tracking-wide w-6">Hex</span>
-                  <span className="text-cyan-400 font-mono font-semibold text-sm">
-                    {decimalToHex(currentDecimalValue)}
+                  <span className="text-cyan-400 font-mono font-semibold text-sm flex-1">
+                    {copied === 'hex' ? <span className="text-white/40 text-xs">✓ copied</span> : decimalToHex(currentDecimalValue)}
                   </span>
-                </div>
-                <div className="px-3 py-2 bg-black/20 border border-white/10 rounded-lg flex items-center gap-2">
+                </button>
+                <button
+                  onClick={() => handleCopy(decimalToOctal(currentDecimalValue), 'oct')}
+                  title="Copy octal"
+                  className="px-3 py-2 bg-black/20 border border-white/10 rounded-lg flex items-center gap-2 hover:bg-black/30 transition text-left"
+                >
                   <span className="text-white/40 text-xs font-medium uppercase tracking-wide w-6">Oct</span>
-                  <span className="text-amber-400 font-mono font-semibold text-sm">
-                    {decimalToOctal(currentDecimalValue)}
+                  <span className="text-amber-400 font-mono font-semibold text-sm flex-1">
+                    {copied === 'oct' ? <span className="text-white/40 text-xs">✓ copied</span> : decimalToOctal(currentDecimalValue)}
                   </span>
-                </div>
+                </button>
               </div>
               <button
                 onClick={handleSwap}
