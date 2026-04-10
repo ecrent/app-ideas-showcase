@@ -25,6 +25,16 @@ export default function App() {
     }))
   }
 
+  const syncAllCorners = (value: string) => {
+    const numValue = value.replace(/[^0-9]/g, '') || '0'
+    setValues({
+      topLeft: numValue,
+      topRight: numValue,
+      bottomRight: numValue,
+      bottomLeft: numValue,
+    })
+  }
+
   const borderRadiusValue = `${values.topLeft}${unit} ${values.topRight}${unit} ${values.bottomRight}${unit} ${values.bottomLeft}${unit}`
 
   const cssCode = `border-radius: ${borderRadiusValue};`
@@ -61,6 +71,24 @@ export default function App() {
                     {u}
                   </button>
                 ))}
+              </div>
+            </div>
+
+            {/* Sync All */}
+            <div className="mb-8 pb-8 border-b border-gray-200">
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                All Corners
+              </label>
+              <div className="flex items-center gap-2">
+                <input
+                  type="number"
+                  min="0"
+                  max={unit === 'px' ? '1000' : '100'}
+                  value={values.topLeft}
+                  onChange={e => syncAllCorners(e.target.value)}
+                  className="flex-1 px-4 py-2 border border-gray-300 rounded font-mono text-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                />
+                <span className="text-gray-600 font-medium">{unit}</span>
               </div>
             </div>
 
