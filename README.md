@@ -2,13 +2,13 @@
 
 working my way through all the projects from [florinpop17/app-ideas](https://github.com/florinpop17/app-ideas). building each one with React, TypeScript, and Tailwind.
 
-0/82 done so far.
+1/82 done so far.
 
 ---
 
 ### Tier 1
 
-- Bin2Dec *(in progress)*
+- [Bin2Dec](https://ecrent.github.io/app-ideas-showcase/apps/01-bin2dec/)
 - Border Radius Previewer
 - Calculator
 - Christmas Lights
