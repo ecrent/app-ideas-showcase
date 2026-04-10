@@ -15,6 +15,7 @@ logs/
 
 # Local scripts
 scripts/
+app-tracker.json
 
 # OS
 .DS_Store
