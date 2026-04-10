@@ -12,6 +12,10 @@ function decimalToBinary(decimal: string): string | null {
   return num.toString(2)
 }
 
+function decimalToHex(n: number): string {
+  return '0x' + n.toString(16).toUpperCase()
+}
+
 type Mode = 'bin2dec' | 'dec2bin'
 
 export default function App() {
@@ -24,17 +28,16 @@ export default function App() {
   const computedDecimal = binaryToDecimal(binary)
   const computedBinary = decimalToBinary(decimal)
 
+  const currentDecimalValue =
+    mode === 'bin2dec' ? computedDecimal : (decimal !== '' ? parseInt(decimal, 10) : null)
+
   function handleBinaryChange(value: string) {
     const cleaned = value.replace(/[^01]/g, '')
     if (cleaned !== value) {
       setError('Only 0 and 1 are allowed')
       setTimeout(() => setError(''), 1500)
     }
-    if (cleaned.length > 32) {
-      setBinary(cleaned.slice(0, 32))
-    } else {
-      setBinary(cleaned)
-    }
+    setBinary(cleaned.length > 32 ? cleaned.slice(0, 32) : cleaned)
   }
 
   function handleDecimalChange(value: string) {
@@ -42,10 +45,11 @@ export default function App() {
     if (cleaned !== value) {
       setError('Only digits are allowed')
       setTimeout(() => setError(''), 1500)
+      return
     }
     const num = parseInt(cleaned, 10)
     if (cleaned && num > 4294967295) {
-      setError('Maximum value is 4,294,967,295 (2³² - 1)')
+      setError('Maximum value is 4,294,967,295 (2³² − 1)')
       setTimeout(() => setError(''), 2000)
       return
     }
@@ -82,33 +86,45 @@ export default function App() {
     setError('')
   }
 
-  function toggleMode() {
-    setMode(mode === 'bin2dec' ? 'dec2bin' : 'bin2dec')
-    setBinary('')
-    setDecimal('')
-    setError('')
+  function handleSwap() {
+    if (mode === 'bin2dec' && computedDecimal !== null) {
+      setMode('dec2bin')
+      setDecimal(String(computedDecimal))
+      setBinary('')
+      setError('')
+    } else if (mode === 'dec2bin' && computedBinary) {
+      setMode('bin2dec')
+      setBinary(computedBinary)
+      setDecimal('')
+      setError('')
+    }
   }
 
-  // Pick the active binary string for the bit breakdown
-  const activeBinary =
-    mode === 'bin2dec' ? binary : computedBinary ?? ''
+  const canSwap =
+    (mode === 'bin2dec' && computedDecimal !== null) ||
+    (mode === 'dec2bin' && computedBinary !== null)
+
+  // The active binary string for the bit breakdown
+  const activeBinary = mode === 'bin2dec' ? binary : (computedBinary ?? '')
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-950 to-slate-900 flex items-center justify-center p-4">
       <div className="w-full max-w-md">
         <div className="bg-white/10 backdrop-blur-lg rounded-2xl shadow-2xl border border-white/20 p-8">
-          <h1 className="text-3xl font-bold text-white mb-1 text-center">
-            Bin2Dec
-          </h1>
-          <p className="text-purple-300 text-sm text-center mb-6">
-            Binary ↔ Decimal Converter
-          </p>
+
+          {/* Header */}
+          <div className="text-center mb-6">
+            <h1 className="text-3xl font-bold text-white mb-1 tracking-tight">
+              Bin2Dec
+            </h1>
+            <p className="text-purple-300 text-sm">Binary ↔ Decimal Converter</p>
+          </div>
 
           {/* Mode toggle */}
           <div className="flex bg-black/30 rounded-lg p-1 mb-6">
             <button
               onClick={() => { setMode('bin2dec'); setBinary(''); setDecimal(''); setError('') }}
-              className={`flex-1 py-2 text-sm font-medium rounded-md transition ${
+              className={`flex-1 py-2 text-sm font-medium rounded-md transition-all duration-150 ${
                 mode === 'bin2dec'
                   ? 'bg-purple-600 text-white shadow'
                   : 'text-white/50 hover:text-white/80'
@@ -118,7 +134,7 @@ export default function App() {
             </button>
             <button
               onClick={() => { setMode('dec2bin'); setBinary(''); setDecimal(''); setError('') }}
-              className={`flex-1 py-2 text-sm font-medium rounded-md transition ${
+              className={`flex-1 py-2 text-sm font-medium rounded-md transition-all duration-150 ${
                 mode === 'dec2bin'
                   ? 'bg-purple-600 text-white shadow'
                   : 'text-white/50 hover:text-white/80'
@@ -131,7 +147,7 @@ export default function App() {
           {mode === 'bin2dec' ? (
             <>
               {/* Binary Input */}
-              <div className="mb-6">
+              <div className="mb-4">
                 <label className="block text-purple-200 text-sm font-medium mb-2">
                   Binary Input
                 </label>
@@ -165,7 +181,7 @@ export default function App() {
               </div>
 
               {/* Decimal Output */}
-              <div className="mb-6">
+              <div className="mb-4">
                 <label className="block text-purple-200 text-sm font-medium mb-2">
                   Decimal Output
                 </label>
@@ -196,7 +212,7 @@ export default function App() {
           ) : (
             <>
               {/* Decimal Input */}
-              <div className="mb-6">
+              <div className="mb-4">
                 <label className="block text-purple-200 text-sm font-medium mb-2">
                   Decimal Input
                 </label>
@@ -229,7 +245,7 @@ export default function App() {
               </div>
 
               {/* Binary Output */}
-              <div className="mb-6">
+              <div className="mb-4">
                 <label className="block text-purple-200 text-sm font-medium mb-2">
                   Binary Output
                 </label>
@@ -243,7 +259,7 @@ export default function App() {
                   title={computedBinary ? 'Click to copy' : undefined}
                 >
                   {computedBinary ? (
-                    <span className="text-green-400 text-2xl font-bold break-all">
+                    <span className="text-green-400 text-xl font-bold break-all leading-tight">
                       {computedBinary}
                     </span>
                   ) : (
@@ -259,9 +275,33 @@ export default function App() {
             </>
           )}
 
+          {/* Hex + Swap row */}
+          {currentDecimalValue !== null && (
+            <div className="flex items-center gap-3 mb-5">
+              <div className="flex-1 px-3 py-2 bg-black/20 border border-white/10 rounded-lg flex items-center gap-2">
+                <span className="text-white/40 text-xs font-medium uppercase tracking-wide">Hex</span>
+                <span className="text-cyan-400 font-mono font-semibold text-sm">
+                  {decimalToHex(currentDecimalValue)}
+                </span>
+              </div>
+              <button
+                onClick={handleSwap}
+                disabled={!canSwap}
+                title="Use result as new input (swap direction)"
+                className={`px-3 py-2 rounded-lg text-sm font-medium transition-all border ${
+                  canSwap
+                    ? 'bg-purple-600/20 border-purple-500/40 text-purple-300 hover:bg-purple-600/40 hover:border-purple-400'
+                    : 'bg-white/5 border-white/10 text-white/20 cursor-not-allowed'
+                }`}
+              >
+                ⇄ Swap
+              </button>
+            </div>
+          )}
+
           {/* Bit visualization */}
           {activeBinary && !error && (
-            <div className="mb-6">
+            <div className="mb-5">
               <label className="block text-purple-200 text-sm font-medium mb-2">
                 Bit Breakdown
               </label>
@@ -274,7 +314,7 @@ export default function App() {
                       key={i}
                       className={`flex flex-col items-center px-2 py-1 rounded transition-colors ${
                         bit === '1'
-                          ? 'bg-purple-500/30 border border-purple-400/20'
+                          ? 'bg-purple-500/30 border border-purple-400/30'
                           : 'bg-white/5 border border-transparent'
                       }`}
                     >
@@ -288,19 +328,18 @@ export default function App() {
                       >
                         {bit}
                       </span>
-                      <span className="text-white/40 text-[10px]">{value}</span>
+                      <span className={`text-[10px] ${bit === '1' ? 'text-purple-400/80' : 'text-white/20'}`}>
+                        {value}
+                      </span>
                     </div>
                   )
                 })}
               </div>
-              {activeBinary.length > 1 && (
-                <p className="text-center text-white/30 text-xs mt-2">
+              {activeBinary.length > 1 && binaryToDecimal(activeBinary) !== null && (
+                <p className="text-center text-white/30 text-xs mt-2 leading-relaxed">
                   {activeBinary
                     .split('')
-                    .map((bit, i) => {
-                      const power = activeBinary.length - 1 - i
-                      return parseInt(bit) * Math.pow(2, power)
-                    })
+                    .map((bit, i) => parseInt(bit) * Math.pow(2, activeBinary.length - 1 - i))
                     .filter((v) => v > 0)
                     .join(' + ')}{' '}
                   = {binaryToDecimal(activeBinary)}
@@ -351,6 +390,10 @@ export default function App() {
             </div>
           </div>
         </div>
+
+        <p className="text-center text-white/20 text-xs mt-4">
+          Supports up to 32-bit unsigned integers
+        </p>
       </div>
     </div>
   )
