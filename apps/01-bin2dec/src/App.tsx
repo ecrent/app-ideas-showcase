@@ -16,6 +16,16 @@ function decimalToHex(n: number): string {
   return '0x' + n.toString(16).toUpperCase()
 }
 
+function decimalToOctal(n: number): string {
+  return '0o' + n.toString(8)
+}
+
+/** Group binary string into nibbles (groups of 4) for readability */
+function groupNibbles(bin: string): string {
+  const padded = bin.padStart(Math.ceil(bin.length / 4) * 4, '0')
+  return padded.match(/.{1,4}/g)!.join(' ').replace(/^0+ /, '').trimStart()
+}
+
 type Mode = 'bin2dec' | 'dec2bin'
 
 export default function App() {
@@ -250,7 +260,7 @@ export default function App() {
                   Binary Output
                 </label>
                 <div
-                  onClick={() => computedBinary && handleCopy(computedBinary)}
+                  onClick={() => computedBinary && handleCopy(computedBinary.replace(/\s/g, ''))}
                   className={`w-full px-4 py-3 bg-black/20 border rounded-lg text-lg font-mono min-h-[52px] flex items-center justify-between ${
                     computedBinary
                       ? 'border-green-500/30 cursor-pointer hover:bg-black/30 transition'
@@ -259,8 +269,8 @@ export default function App() {
                   title={computedBinary ? 'Click to copy' : undefined}
                 >
                   {computedBinary ? (
-                    <span className="text-green-400 text-xl font-bold break-all leading-tight">
-                      {computedBinary}
+                    <span className="text-green-400 text-xl font-bold break-all leading-tight tracking-wider">
+                      {groupNibbles(computedBinary)}
                     </span>
                   ) : (
                     <span className="text-white/30">—</span>
@@ -275,26 +285,34 @@ export default function App() {
             </>
           )}
 
-          {/* Hex + Swap row */}
+          {/* Representations + Swap row */}
           {currentDecimalValue !== null && (
-            <div className="flex items-center gap-3 mb-5">
-              <div className="flex-1 px-3 py-2 bg-black/20 border border-white/10 rounded-lg flex items-center gap-2">
-                <span className="text-white/40 text-xs font-medium uppercase tracking-wide">Hex</span>
-                <span className="text-cyan-400 font-mono font-semibold text-sm">
-                  {decimalToHex(currentDecimalValue)}
-                </span>
+            <div className="mb-5 space-y-2">
+              <div className="grid grid-cols-2 gap-2">
+                <div className="px-3 py-2 bg-black/20 border border-white/10 rounded-lg flex items-center gap-2">
+                  <span className="text-white/40 text-xs font-medium uppercase tracking-wide w-6">Hex</span>
+                  <span className="text-cyan-400 font-mono font-semibold text-sm">
+                    {decimalToHex(currentDecimalValue)}
+                  </span>
+                </div>
+                <div className="px-3 py-2 bg-black/20 border border-white/10 rounded-lg flex items-center gap-2">
+                  <span className="text-white/40 text-xs font-medium uppercase tracking-wide w-6">Oct</span>
+                  <span className="text-amber-400 font-mono font-semibold text-sm">
+                    {decimalToOctal(currentDecimalValue)}
+                  </span>
+                </div>
               </div>
               <button
                 onClick={handleSwap}
                 disabled={!canSwap}
                 title="Use result as new input (swap direction)"
-                className={`px-3 py-2 rounded-lg text-sm font-medium transition-all border ${
+                className={`w-full py-2 rounded-lg text-sm font-medium transition-all border ${
                   canSwap
                     ? 'bg-purple-600/20 border-purple-500/40 text-purple-300 hover:bg-purple-600/40 hover:border-purple-400'
                     : 'bg-white/5 border-white/10 text-white/20 cursor-not-allowed'
                 }`}
               >
-                ⇄ Swap
+                ⇄ Swap — use result as input
               </button>
             </div>
           )}
