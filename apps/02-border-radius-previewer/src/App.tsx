@@ -16,6 +16,7 @@ export default function App() {
   })
 
   const [unit, setUnit] = useState<'px' | '%'>('px')
+  const [copied, setCopied] = useState(false)
 
   const handleChange = (corner: keyof BorderRadiusValues, value: string) => {
     const numValue = value.replace(/[^0-9]/g, '') || '0'
@@ -39,32 +40,36 @@ export default function App() {
 
   const cssCode = `border-radius: ${borderRadiusValue};`
 
+  const allCornersEqual = values.topLeft === values.topRight && values.topRight === values.bottomRight && values.bottomRight === values.bottomLeft
+
   const copyToClipboard = () => {
     navigator.clipboard.writeText(cssCode)
+    setCopied(true)
+    setTimeout(() => setCopied(false), 2000)
   }
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-50 p-8">
-      <div className="max-w-4xl mx-auto">
-        <h1 className="text-4xl font-bold text-gray-900 mb-2 text-center">Border Radius Previewer</h1>
-        <p className="text-gray-600 text-center mb-8">Live CSS border-radius previewer</p>
+      <div className="max-w-5xl mx-auto">
+        <h1 className="text-5xl font-bold text-gray-900 mb-2 text-center">Border Radius Previewer</h1>
+        <p className="text-lg text-gray-600 text-center mb-10">Adjust border-radius values and see the changes in real-time</p>
 
         <div className="grid lg:grid-cols-2 gap-8">
           {/* Controls */}
-          <div className="bg-white rounded-lg shadow-md p-8">
-            <h2 className="text-xl font-semibold text-gray-900 mb-6">Controls</h2>
+          <div className="bg-white rounded-xl shadow-lg p-8">
+            <h2 className="text-2xl font-bold text-gray-900 mb-8">Controls</h2>
 
             {/* Unit Toggle */}
             <div className="mb-8">
-              <label className="block text-sm font-medium text-gray-700 mb-3">Unit</label>
-              <div className="flex gap-4">
+              <label className="block text-sm font-semibold text-gray-700 mb-3 uppercase tracking-wide">Unit</label>
+              <div className="flex gap-3">
                 {(['px', '%'] as const).map(u => (
                   <button
                     key={u}
                     onClick={() => setUnit(u)}
-                    className={`px-4 py-2 rounded font-medium transition-colors ${
+                    className={`flex-1 px-4 py-3 rounded-lg font-semibold transition-all ${
                       unit === u
-                        ? 'bg-indigo-600 text-white'
+                        ? 'bg-indigo-600 text-white shadow-md'
                         : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
                     }`}
                   >
@@ -75,25 +80,26 @@ export default function App() {
             </div>
 
             {/* Sync All */}
-            <div className="mb-8 pb-8 border-b border-gray-200">
-              <label className="block text-sm font-medium text-gray-700 mb-2">
-                All Corners
+            <div className="mb-8 pb-8 border-b-2 border-gray-200">
+              <label className="block text-sm font-semibold text-gray-700 mb-3 uppercase tracking-wide">
+                Sync All Corners
               </label>
-              <div className="flex items-center gap-2">
+              <div className="flex items-center gap-3">
                 <input
                   type="number"
                   min="0"
                   max={unit === 'px' ? '1000' : '100'}
-                  value={values.topLeft}
+                  value={allCornersEqual ? values.topLeft : ''}
+                  placeholder={!allCornersEqual ? 'Mixed values' : undefined}
                   onChange={e => syncAllCorners(e.target.value)}
-                  className="flex-1 px-4 py-2 border border-gray-300 rounded font-mono text-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                  className="flex-1 px-4 py-3 border-2 border-gray-300 rounded-lg font-mono text-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all placeholder:text-gray-400"
                 />
-                <span className="text-gray-600 font-medium">{unit}</span>
+                <span className="text-gray-600 font-semibold text-lg min-w-12">{unit}</span>
               </div>
             </div>
 
             {/* Corner Inputs */}
-            <div className="space-y-4">
+            <div className="space-y-4 mb-8">
               {([
                 { key: 'topLeft', label: 'Top Left' },
                 { key: 'topRight', label: 'Top Right' },
@@ -101,28 +107,28 @@ export default function App() {
                 { key: 'bottomLeft', label: 'Bottom Left' },
               ] as const).map(({ key, label }) => (
                 <div key={key}>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                  <label className="block text-sm font-medium text-gray-600 mb-2">
                     {label}
                   </label>
-                  <div className="flex items-center gap-2">
+                  <div className="flex items-center gap-3">
                     <input
                       type="number"
                       min="0"
                       max={unit === 'px' ? '1000' : '100'}
                       value={values[key]}
                       onChange={e => handleChange(key, e.target.value)}
-                      className="flex-1 px-4 py-2 border border-gray-300 rounded font-mono text-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                      className="flex-1 px-4 py-2 border-2 border-gray-300 rounded-lg font-mono text-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all"
                     />
-                    <span className="text-gray-600 font-medium">{unit}</span>
+                    <span className="text-gray-600 font-medium min-w-12">{unit}</span>
                   </div>
                 </div>
               ))}
             </div>
 
             {/* Presets */}
-            <div className="mt-8">
-              <label className="block text-sm font-medium text-gray-700 mb-3">Presets</label>
-              <div className="grid grid-cols-2 gap-2">
+            <div className="mb-8">
+              <label className="block text-sm font-semibold text-gray-700 mb-3 uppercase tracking-wide">Presets</label>
+              <div className="grid grid-cols-2 gap-3">
                 {[
                   { label: 'Sharp', value: '0' },
                   { label: 'Rounded', value: '8' },
@@ -132,7 +138,7 @@ export default function App() {
                   <button
                     key={preset.label}
                     onClick={() => syncAllCorners(preset.value)}
-                    className="px-3 py-2 bg-indigo-100 text-indigo-700 rounded font-medium hover:bg-indigo-200 transition-colors text-sm"
+                    className="px-3 py-2 bg-gradient-to-br from-indigo-100 to-indigo-50 text-indigo-700 rounded-lg font-semibold hover:from-indigo-200 hover:to-indigo-100 transition-all text-sm border border-indigo-200"
                   >
                     {preset.label}
                   </button>
@@ -143,36 +149,40 @@ export default function App() {
             {/* Reset Button */}
             <button
               onClick={() => setValues({ topLeft: '10', topRight: '10', bottomRight: '10', bottomLeft: '10' })}
-              className="w-full mt-4 px-4 py-2 bg-gray-200 text-gray-700 rounded font-medium hover:bg-gray-300 transition-colors"
+              className="w-full px-4 py-3 bg-gray-200 hover:bg-gray-300 text-gray-800 rounded-lg font-semibold transition-all active:scale-95"
             >
-              Reset
+              Reset All
             </button>
           </div>
 
           {/* Preview & Code */}
           <div className="space-y-8">
             {/* Preview Box */}
-            <div className="bg-white rounded-lg shadow-md p-8">
-              <h2 className="text-xl font-semibold text-gray-900 mb-6">Preview</h2>
-              <div className="flex items-center justify-center bg-gray-50 rounded-lg p-12 min-h-64">
+            <div className="bg-white rounded-xl shadow-lg p-8">
+              <h2 className="text-2xl font-bold text-gray-900 mb-8">Preview</h2>
+              <div className="flex items-center justify-center bg-gradient-to-br from-gray-100 to-gray-200 rounded-xl p-12 min-h-80 border border-gray-300">
                 <div
-                  className="w-32 h-32 bg-gradient-to-br from-indigo-400 to-blue-600 shadow-lg"
+                  className="w-40 h-40 bg-gradient-to-br from-indigo-400 to-indigo-600 shadow-2xl transition-all duration-150"
                   style={{ borderRadius: borderRadiusValue }}
                 />
               </div>
             </div>
 
             {/* CSS Code */}
-            <div className="bg-white rounded-lg shadow-md p-8">
-              <h2 className="text-xl font-semibold text-gray-900 mb-6">CSS Code</h2>
-              <div className="bg-gray-900 text-gray-100 rounded font-mono text-sm p-4 overflow-x-auto mb-4">
-                <div>{cssCode}</div>
+            <div className="bg-white rounded-xl shadow-lg p-8">
+              <h2 className="text-2xl font-bold text-gray-900 mb-6">CSS Code</h2>
+              <div className="bg-gray-900 text-gray-100 rounded-lg font-mono text-sm p-4 overflow-x-auto mb-4 border border-gray-800 shadow-inner">
+                <div className="whitespace-pre-wrap break-words">{cssCode}</div>
               </div>
               <button
                 onClick={copyToClipboard}
-                className="w-full px-4 py-2 bg-indigo-600 text-white rounded font-medium hover:bg-indigo-700 transition-colors"
+                className={`w-full px-4 py-3 rounded-lg font-semibold transition-all duration-200 ${
+                  copied
+                    ? 'bg-green-500 text-white'
+                    : 'bg-indigo-600 text-white hover:bg-indigo-700 active:scale-95'
+                }`}
               >
-                Copy CSS
+                {copied ? '✓ Copied!' : 'Copy CSS'}
               </button>
             </div>
           </div>
