@@ -52,4 +52,4 @@ Coming soon — [GitHub Pages](https://ecrent.github.io/app-ideas-showcase/apps/
 - [x] Core logic
 - [x] Styling
 - [x] Polish
-- [ ] Deployed
+- [x] Complete
