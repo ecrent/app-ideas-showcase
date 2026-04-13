@@ -92,7 +92,11 @@ export default function App() {
                   value={allCornersEqual ? values.topLeft : ''}
                   placeholder={!allCornersEqual ? 'Mixed values' : undefined}
                   onChange={e => syncAllCorners(e.target.value)}
-                  className="flex-1 px-4 py-3 border-2 border-gray-300 rounded-lg font-mono text-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all placeholder:text-gray-400"
+                  className={`flex-1 px-4 py-3 border-2 rounded-lg font-mono text-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all ${
+                    allCornersEqual
+                      ? 'border-gray-300 placeholder:text-gray-400'
+                      : 'border-orange-300 bg-orange-50 placeholder:text-orange-500 placeholder:font-medium'
+                  }`}
                 />
                 <span className="text-gray-600 font-semibold text-lg min-w-12">{unit}</span>
               </div>
@@ -160,11 +164,16 @@ export default function App() {
             {/* Preview Box */}
             <div className="bg-white rounded-xl shadow-lg p-8">
               <h2 className="text-2xl font-bold text-gray-900 mb-8">Preview</h2>
-              <div className="flex items-center justify-center bg-gradient-to-br from-gray-100 to-gray-200 rounded-xl p-12 min-h-80 border border-gray-300">
+              <div className="relative flex items-center justify-center bg-gradient-to-br from-gray-100 to-gray-200 rounded-xl p-12 min-h-80 border border-gray-300 overflow-hidden">
                 <div
                   className="w-40 h-40 bg-gradient-to-br from-indigo-400 to-indigo-600 shadow-2xl transition-all duration-150"
                   style={{ borderRadius: borderRadiusValue }}
                 />
+                {/* Corner labels */}
+                <div className="absolute top-3 left-3 text-xs font-bold text-gray-400 opacity-60">TL</div>
+                <div className="absolute top-3 right-3 text-xs font-bold text-gray-400 opacity-60">TR</div>
+                <div className="absolute bottom-3 right-3 text-xs font-bold text-gray-400 opacity-60">BR</div>
+                <div className="absolute bottom-3 left-3 text-xs font-bold text-gray-400 opacity-60">BL</div>
               </div>
             </div>
 
