@@ -7,6 +7,12 @@ export default function App() {
   const [waitingForNewValue, setWaitingForNewValue] = useState(false)
 
   const handleNumber = (num: string) => {
+    // Reset if showing error
+    if (display === 'NaN' || !isFinite(parseFloat(display))) {
+      handleClear()
+      setDisplay(num)
+      return
+    }
     if (waitingForNewValue) {
       setDisplay(num)
       setWaitingForNewValue(false)
@@ -16,6 +22,12 @@ export default function App() {
   }
 
   const handleDecimal = () => {
+    // Reset if showing error
+    if (display === 'NaN' || !isFinite(parseFloat(display))) {
+      handleClear()
+      setDisplay('0.')
+      return
+    }
     if (waitingForNewValue) {
       setDisplay('0.')
       setWaitingForNewValue(false)
@@ -68,7 +80,7 @@ export default function App() {
     if (operation && prevValue !== null) {
       const currentValue = parseFloat(display)
       const result = calculate(prevValue, currentValue, operation)
-      setDisplay(String(result))
+      setDisplay(isNaN(result) ? 'NaN' : String(result))
       setPrevValue(null)
       setOperation(null)
       setWaitingForNewValue(true)
