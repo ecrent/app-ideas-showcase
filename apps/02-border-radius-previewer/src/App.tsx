@@ -96,8 +96,8 @@ export default function App() {
                   onChange={e => syncAllCorners(e.target.value)}
                   className={`flex-1 px-4 py-3 border-2 rounded-lg font-mono text-lg focus:outline-none focus:ring-2 focus:border-transparent transition-all shadow-sm hover:shadow-md ${
                     allCornersEqual
-                      ? 'border-gray-300 placeholder:text-gray-400 hover:border-gray-400 focus:ring-indigo-500'
-                      : 'border-orange-300 bg-orange-50 placeholder:text-orange-500 placeholder:font-semibold hover:border-orange-400 focus:ring-orange-500'
+                      ? 'border-gray-300 bg-gray-50 placeholder:text-gray-400 hover:border-gray-400 focus:ring-indigo-500 focus:bg-white'
+                      : 'border-orange-300 bg-orange-50 placeholder:text-orange-500 placeholder:font-semibold hover:border-orange-400 focus:ring-orange-500 focus:bg-orange-100'
                   }`}
                 />
                 <span className="text-gray-600 font-semibold text-lg min-w-12 text-center">{unit}</span>
@@ -123,7 +123,7 @@ export default function App() {
                       max={unit === 'px' ? '1000' : '100'}
                       value={values[key]}
                       onChange={e => handleChange(key, e.target.value)}
-                      className="flex-1 px-4 py-2 border-2 border-gray-300 rounded-lg font-mono text-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all hover:border-gray-400 shadow-sm hover:shadow-md"
+                      className="flex-1 px-4 py-2 bg-gray-50 border-2 border-gray-300 rounded-lg font-mono text-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent focus:bg-white transition-all hover:border-gray-400 shadow-sm hover:shadow-md"
                     />
                     <span className="text-gray-600 font-semibold text-lg min-w-12 text-center">{unit}</span>
                   </div>
