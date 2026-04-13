@@ -40,6 +40,9 @@ export default function App() {
   }
 
   const calculate = (prev: number, current: number, op: string): number => {
+    if (op === '/' && current === 0) {
+      return NaN // Invalid operation
+    }
     let result: number
     switch (op) {
       case '+':
@@ -79,29 +82,72 @@ export default function App() {
     setWaitingForNewValue(false)
   }
 
+  const handleDelete = () => {
+    if (waitingForNewValue) return
+    const newDisplay = display.slice(0, -1) || '0'
+    setDisplay(newDisplay)
+  }
+
+  const handleKeyDown = (e: React.KeyboardEvent) => {
+    const key = e.key
+    if (key >= '0' && key <= '9') {
+      e.preventDefault()
+      handleNumber(key)
+    } else if (key === '.') {
+      e.preventDefault()
+      handleDecimal()
+    } else if (key === '+' || key === '-') {
+      e.preventDefault()
+      handleOperation(key)
+    } else if (key === '*') {
+      e.preventDefault()
+      handleOperation('*')
+    } else if (key === '/') {
+      e.preventDefault()
+      handleOperation('/')
+    } else if (key === 'Enter' || key === '=') {
+      e.preventDefault()
+      handleEquals()
+    } else if (key === 'Backspace') {
+      e.preventDefault()
+      handleDelete()
+    } else if (key === 'Escape') {
+      e.preventDefault()
+      handleClear()
+    }
+  }
+
   const buttonClass = 'w-16 h-16 rounded-lg font-semibold text-lg transition-colors'
   const numberButtonClass = `${buttonClass} bg-gray-200 hover:bg-gray-300 text-gray-900`
   const operationButtonClass = `${buttonClass} bg-blue-500 hover:bg-blue-600 text-white`
   const equalsButtonClass = `${buttonClass} bg-green-500 hover:bg-green-600 text-white`
   const clearButtonClass = `${buttonClass} bg-red-500 hover:bg-red-600 text-white`
 
+  const displayValue = display === 'NaN' || !isFinite(parseFloat(display)) ? 'Error' : display
+
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 flex items-center justify-center p-4">
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 flex items-center justify-center p-4" onKeyDown={handleKeyDown} tabIndex={0}>
       <div className="bg-white rounded-2xl shadow-2xl p-6 w-full max-w-sm">
         <h1 className="text-3xl font-bold text-gray-900 mb-6 text-center">Calculator</h1>
 
         <div className="bg-gray-900 rounded-lg p-4 mb-6">
           <div className="text-right text-white text-5xl font-mono overflow-hidden text-ellipsis">
-            {display}
+            {displayValue}
           </div>
         </div>
 
         <div className="grid grid-cols-4 gap-3">
           <button
             onClick={handleClear}
-            className={`${clearButtonClass} col-span-2`}
+            className={`${clearButtonClass}`}
           >
-            Clear
+            C
+          </button>
+          <button
+            onClick={handleDelete}
+            className={`${clearButtonClass}`}
+          >
+            ⌫
           </button>
           <button
             onClick={() => handleOperation('/')}
