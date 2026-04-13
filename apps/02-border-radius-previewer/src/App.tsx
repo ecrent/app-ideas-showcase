@@ -67,10 +67,10 @@ export default function App() {
                   <button
                     key={u}
                     onClick={() => setUnit(u)}
-                    className={`flex-1 px-4 py-3 rounded-lg font-semibold transition-all ${
+                    className={`flex-1 px-4 py-3 rounded-lg font-semibold transition-all active:scale-95 ${
                       unit === u
                         ? 'bg-indigo-600 text-white shadow-md'
-                        : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                        : 'bg-gray-100 text-gray-700 hover:bg-gray-200 shadow-sm'
                     }`}
                   >
                     {u}
@@ -92,10 +92,10 @@ export default function App() {
                   value={allCornersEqual ? values.topLeft : ''}
                   placeholder={!allCornersEqual ? 'Mixed values' : undefined}
                   onChange={e => syncAllCorners(e.target.value)}
-                  className={`flex-1 px-4 py-3 border-2 rounded-lg font-mono text-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all ${
+                  className={`flex-1 px-4 py-3 border-2 rounded-lg font-mono text-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all shadow-sm hover:shadow-md ${
                     allCornersEqual
-                      ? 'border-gray-300 placeholder:text-gray-400'
-                      : 'border-orange-300 bg-orange-50 placeholder:text-orange-500 placeholder:font-medium'
+                      ? 'border-gray-300 placeholder:text-gray-400 hover:border-gray-400'
+                      : 'border-orange-300 bg-orange-50 placeholder:text-orange-500 placeholder:font-medium hover:border-orange-400'
                   }`}
                 />
                 <span className="text-gray-600 font-semibold text-lg min-w-12">{unit}</span>
@@ -121,7 +121,7 @@ export default function App() {
                       max={unit === 'px' ? '1000' : '100'}
                       value={values[key]}
                       onChange={e => handleChange(key, e.target.value)}
-                      className="flex-1 px-4 py-2 border-2 border-gray-300 rounded-lg font-mono text-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all"
+                      className="flex-1 px-4 py-2 border-2 border-gray-300 rounded-lg font-mono text-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all hover:border-gray-400 shadow-sm"
                     />
                     <span className="text-gray-600 font-medium min-w-12">{unit}</span>
                   </div>
@@ -142,7 +142,7 @@ export default function App() {
                   <button
                     key={preset.label}
                     onClick={() => syncAllCorners(preset.value)}
-                    className="px-3 py-2 bg-gradient-to-br from-indigo-100 to-indigo-50 text-indigo-700 rounded-lg font-semibold hover:from-indigo-200 hover:to-indigo-100 transition-all text-sm border border-indigo-200"
+                    className="px-3 py-2 bg-gradient-to-br from-indigo-100 to-indigo-50 text-indigo-700 rounded-lg font-semibold hover:from-indigo-200 hover:to-indigo-100 transition-all text-sm border border-indigo-200 active:scale-95 shadow-sm hover:shadow-md"
                   >
                     {preset.label}
                   </button>
@@ -153,7 +153,7 @@ export default function App() {
             {/* Reset Button */}
             <button
               onClick={() => setValues({ topLeft: '10', topRight: '10', bottomRight: '10', bottomLeft: '10' })}
-              className="w-full px-4 py-3 bg-gray-200 hover:bg-gray-300 text-gray-800 rounded-lg font-semibold transition-all active:scale-95"
+              className="w-full px-4 py-3 bg-gray-200 hover:bg-gray-300 text-gray-800 rounded-lg font-semibold transition-all active:scale-95 shadow-sm hover:shadow-md"
             >
               Reset All
             </button>
@@ -185,10 +185,10 @@ export default function App() {
               </div>
               <button
                 onClick={copyToClipboard}
-                className={`w-full px-4 py-3 rounded-lg font-semibold transition-all duration-200 ${
+                className={`w-full px-4 py-3 rounded-lg font-semibold transition-all duration-200 shadow-md hover:shadow-lg active:scale-95 ${
                   copied
                     ? 'bg-green-500 text-white'
-                    : 'bg-indigo-600 text-white hover:bg-indigo-700 active:scale-95'
+                    : 'bg-indigo-600 text-white hover:bg-indigo-700'
                 }`}
               >
                 {copied ? '✓ Copied!' : 'Copy CSS'}
