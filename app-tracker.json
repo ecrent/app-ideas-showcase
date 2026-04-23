@@ -48,10 +48,10 @@
       "name": "Christmas Lights",
       "tier": 1,
       "days": 2,
-      "status": "in-progress",
+      "status": "completed",
       "start_date": "2026-04-23",
-      "end_date": "2026-04-24",
-      "commits": 0,
+      "end_date": "2026-04-23",
+      "commits": 6,
       "description": "Animated Christmas lights display"
     },
     {
