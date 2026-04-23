@@ -57,10 +57,13 @@ export default function App() {
             s.id === str.id
               ? {
                   ...s,
-                  lights: s.lights.map(light => ({
-                    ...light,
-                    isOn: Math.random() > 0.5,
-                  })),
+                  lights: s.lights.map(light => {
+                    const cycle = (Date.now() + light.delay) % (speed * 2)
+                    return {
+                      ...light,
+                      isOn: cycle < speed,
+                    }
+                  }),
                 }
               : s
           )
@@ -119,7 +122,7 @@ export default function App() {
                     className={`w-10 h-10 rounded-full transition-all duration-75 transform ${
                       light.isOn
                         ? `${colorClasses[light.color]} shadow-lg scale-100`
-                        : 'bg-slate-700 shadow-sm scale-85'
+                        : 'bg-slate-700 shadow-sm scale-75'
                     } hover:scale-110 hover:shadow-2xl cursor-pointer border-0 p-0`}
                     aria-label={`Toggle light ${light.id}`}
                   />
