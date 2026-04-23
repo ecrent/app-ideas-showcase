@@ -91,7 +91,6 @@ export default function App() {
   }, [])
 
   const resetLights = useCallback(() => {
-    const colors = ['red', 'green', 'blue', 'yellow', 'purple', 'pink', 'orange', 'cyan']
     setStrings(prev =>
       prev.map(s => ({
         ...s,
@@ -103,6 +102,20 @@ export default function App() {
       }))
     )
   }, [])
+
+  const allLightsOn = strings.every(s => s.lights.every(l => l.isOn))
+
+  const toggleAllLights = useCallback(() => {
+    setStrings(prev =>
+      prev.map(s => ({
+        ...s,
+        lights: s.lights.map(light => ({
+          ...light,
+          isOn: !allLightsOn,
+        })),
+      }))
+    )
+  }, [allLightsOn])
 
   const colorClasses: Record<string, string> = {
     red: 'bg-red-500 shadow-red-500',
@@ -120,12 +133,18 @@ export default function App() {
       <h1 className="text-6xl font-bold text-white mb-2 drop-shadow-lg">🎄 Christmas Lights</h1>
       <p className="text-slate-300 mb-6 text-lg">Click to toggle lights, watch them blink</p>
 
-      <div className="flex gap-4 mb-12">
+      <div className="flex gap-4 mb-12 flex-wrap justify-center">
         <button
           onClick={() => setPaused(!paused)}
           className="px-6 py-2 bg-amber-600 hover:bg-amber-700 text-white rounded-lg transition-colors font-medium"
         >
           {paused ? '▶ Resume' : '⏸ Pause'}
+        </button>
+        <button
+          onClick={toggleAllLights}
+          className="px-6 py-2 bg-red-600 hover:bg-red-700 text-white rounded-lg transition-colors font-medium"
+        >
+          {allLightsOn ? '💡 Turn Off All' : '💡 Turn On All'}
         </button>
         <button
           onClick={resetLights}
