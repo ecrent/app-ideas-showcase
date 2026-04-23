@@ -15,6 +15,7 @@ interface LightString {
 
 export default function App() {
   const [strings, setStrings] = useState<LightString[]>([])
+  const [paused, setPaused] = useState(false)
 
   useEffect(() => {
     const colors = ['red', 'green', 'blue', 'yellow', 'purple', 'pink', 'orange', 'cyan']
@@ -47,7 +48,7 @@ export default function App() {
   }
 
   useEffect(() => {
-    if (strings.length === 0) return
+    if (strings.length === 0 || paused) return
 
     const intervals = strings.map(str => {
       const speed = getAnimationSpeed(str.speed)
@@ -72,7 +73,7 @@ export default function App() {
     })
 
     return () => intervals.forEach(clearInterval)
-  }, [strings.length])
+  }, [strings.length, paused])
 
   const toggleLight = useCallback((stringId: number, lightId: number) => {
     setStrings(prev =>
@@ -86,6 +87,20 @@ export default function App() {
             }
           : s
       )
+    )
+  }, [])
+
+  const resetLights = useCallback(() => {
+    const colors = ['red', 'green', 'blue', 'yellow', 'purple', 'pink', 'orange', 'cyan']
+    setStrings(prev =>
+      prev.map(s => ({
+        ...s,
+        lights: s.lights.map(light => ({
+          ...light,
+          isOn: Math.random() > 0.5,
+          delay: Math.random() * 1000,
+        })),
+      }))
     )
   }, [])
 
@@ -103,7 +118,22 @@ export default function App() {
   return (
     <div className="min-h-screen bg-gradient-to-b from-slate-950 via-slate-900 to-blue-950 flex flex-col items-center justify-center p-6">
       <h1 className="text-6xl font-bold text-white mb-2 drop-shadow-lg">🎄 Christmas Lights</h1>
-      <p className="text-slate-300 mb-16 text-lg">Click to toggle lights, watch them blink</p>
+      <p className="text-slate-300 mb-6 text-lg">Click to toggle lights, watch them blink</p>
+
+      <div className="flex gap-4 mb-12">
+        <button
+          onClick={() => setPaused(!paused)}
+          className="px-6 py-2 bg-amber-600 hover:bg-amber-700 text-white rounded-lg transition-colors font-medium"
+        >
+          {paused ? '▶ Resume' : '⏸ Pause'}
+        </button>
+        <button
+          onClick={resetLights}
+          className="px-6 py-2 bg-emerald-600 hover:bg-emerald-700 text-white rounded-lg transition-colors font-medium"
+        >
+          🔄 Reset
+        </button>
+      </div>
 
       <div className="space-y-12 max-w-3xl w-full">
         {strings.map(lightString => (
