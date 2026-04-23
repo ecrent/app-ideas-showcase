@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useCallback } from 'react'
 
 interface Light {
   id: number
@@ -7,34 +7,69 @@ interface Light {
   delay: number
 }
 
+interface LightString {
+  id: number
+  lights: Light[]
+  speed: 'slow' | 'medium' | 'fast'
+}
+
 export default function App() {
-  const [lights, setLights] = useState<Light[]>([])
+  const [strings, setStrings] = useState<LightString[]>([])
 
   useEffect(() => {
     const colors = ['red', 'green', 'blue', 'yellow', 'purple', 'pink', 'orange', 'cyan']
-    const initialLights = Array.from({ length: 20 }, (_, i) => ({
-      id: i,
-      color: colors[i % colors.length],
-      isOn: Math.random() > 0.5,
-      delay: Math.random() * 1000,
+    const speeds: Array<'slow' | 'medium' | 'fast'> = ['slow', 'medium', 'fast']
+
+    const lightStrings = Array.from({ length: 4 }, (_, stringIdx) => ({
+      id: stringIdx,
+      speed: speeds[stringIdx % speeds.length],
+      lights: Array.from({ length: 12 }, (_, i) => ({
+        id: i,
+        color: colors[(stringIdx * 2 + i) % colors.length],
+        isOn: Math.random() > 0.5,
+        delay: Math.random() * 1000,
+      })),
     }))
-    setLights(initialLights)
+    setStrings(lightStrings)
   }, [])
 
+  const getAnimationSpeed = (speed: string) => {
+    switch (speed) {
+      case 'slow':
+        return 600
+      case 'medium':
+        return 400
+      case 'fast':
+        return 250
+      default:
+        return 400
+    }
+  }
+
   useEffect(() => {
-    if (lights.length === 0) return
+    if (strings.length === 0) return
 
-    const interval = setInterval(() => {
-      setLights(prev =>
-        prev.map(light => ({
-          ...light,
-          isOn: Math.random() > 0.5,
-        }))
-      )
-    }, 400)
+    const intervals = strings.map(str => {
+      const speed = getAnimationSpeed(str.speed)
+      return setInterval(() => {
+        setStrings(prev =>
+          prev.map(s =>
+            s.id === str.id
+              ? {
+                  ...s,
+                  lights: s.lights.map(light => ({
+                    ...light,
+                    isOn: Math.random() > 0.5,
+                  })),
+                }
+              : s
+          )
+        )
+      }, speed)
+    })
 
-    return () => clearInterval(interval)
-  }, [lights.length])
+    return () => intervals.forEach(clearInterval)
+  }, [strings.length])
 
   const colorClasses: Record<string, string> = {
     red: 'bg-red-500 shadow-red-500',
@@ -48,32 +83,48 @@ export default function App() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-slate-900 via-blue-900 to-slate-900 flex flex-col items-center justify-center p-4">
-      <h1 className="text-5xl font-bold text-white mb-4 drop-shadow-lg">
-        Christmas Lights
-      </h1>
-      <p className="text-slate-200 mb-12 text-lg">Hover over lights for effects</p>
+    <div className="min-h-screen bg-gradient-to-b from-slate-950 via-slate-900 to-blue-950 flex flex-col items-center justify-center p-6">
+      <h1 className="text-6xl font-bold text-white mb-2 drop-shadow-lg">🎄 Christmas Lights</h1>
+      <p className="text-slate-300 mb-16 text-lg">Watch the animated light strings</p>
 
-      <div className="flex gap-4 flex-wrap justify-center max-w-4xl mb-8">
-        {lights.map(light => (
-          <div
-            key={light.id}
-            className="relative group"
-            style={{ animationDelay: `${light.delay}ms` }}
-          >
-            <div
-              className={`w-12 h-12 rounded-full transition-all duration-100 transform ${
-                light.isOn
-                  ? `${colorClasses[light.color]} shadow-lg scale-100`
-                  : 'bg-slate-700 shadow-sm scale-95'
-              } hover:scale-125 hover:shadow-2xl cursor-pointer`}
-            />
+      <div className="space-y-12 max-w-3xl w-full">
+        {strings.map(lightString => (
+          <div key={lightString.id} className="flex flex-col items-center">
+            <div className="relative h-1 w-full bg-gradient-to-r from-transparent via-amber-700 to-transparent mb-6" />
+
+            <div className="flex gap-3 flex-wrap justify-center">
+              {lightString.lights.map(light => (
+                <div
+                  key={`${lightString.id}-${light.id}`}
+                  className="relative group"
+                  style={{ animationDelay: `${light.delay}ms` }}
+                >
+                  <div
+                    className={`w-10 h-10 rounded-full transition-all duration-75 transform ${
+                      light.isOn
+                        ? `${colorClasses[light.color]} shadow-lg scale-100`
+                        : 'bg-slate-700 shadow-sm scale-85'
+                    } hover:scale-110 hover:shadow-2xl cursor-pointer`}
+                  />
+                  <div
+                    className={`absolute inset-0 rounded-full blur-md transition-opacity duration-75 ${
+                      light.isOn
+                        ? `${colorClasses[light.color]} opacity-50`
+                        : 'opacity-0'
+                    }`}
+                  />
+                </div>
+              ))}
+            </div>
+
+            <div className="relative h-1 w-full bg-gradient-to-r from-transparent via-amber-700 to-transparent mt-6" />
+            <p className="text-xs text-slate-400 mt-3">Speed: {lightString.speed}</p>
           </div>
         ))}
       </div>
 
-      <div className="text-center text-slate-300 text-sm">
-        <p>✨ Lights blink automatically ✨</p>
+      <div className="text-center text-slate-400 text-sm mt-16">
+        <p>✨ Enjoy the festive display ✨</p>
       </div>
     </div>
   )
