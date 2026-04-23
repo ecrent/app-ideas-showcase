@@ -71,6 +71,21 @@ export default function App() {
     return () => intervals.forEach(clearInterval)
   }, [strings.length])
 
+  const toggleLight = useCallback((stringId: number, lightId: number) => {
+    setStrings(prev =>
+      prev.map(s =>
+        s.id === stringId
+          ? {
+              ...s,
+              lights: s.lights.map(light =>
+                light.id === lightId ? { ...light, isOn: !light.isOn } : light
+              ),
+            }
+          : s
+      )
+    )
+  }, [])
+
   const colorClasses: Record<string, string> = {
     red: 'bg-red-500 shadow-red-500',
     green: 'bg-green-500 shadow-green-500',
@@ -85,7 +100,7 @@ export default function App() {
   return (
     <div className="min-h-screen bg-gradient-to-b from-slate-950 via-slate-900 to-blue-950 flex flex-col items-center justify-center p-6">
       <h1 className="text-6xl font-bold text-white mb-2 drop-shadow-lg">🎄 Christmas Lights</h1>
-      <p className="text-slate-300 mb-16 text-lg">Watch the animated light strings</p>
+      <p className="text-slate-300 mb-16 text-lg">Click to toggle lights, watch them blink</p>
 
       <div className="space-y-12 max-w-3xl w-full">
         {strings.map(lightString => (
@@ -99,15 +114,17 @@ export default function App() {
                   className="relative group"
                   style={{ animationDelay: `${light.delay}ms` }}
                 >
-                  <div
+                  <button
+                    onClick={() => toggleLight(lightString.id, light.id)}
                     className={`w-10 h-10 rounded-full transition-all duration-75 transform ${
                       light.isOn
                         ? `${colorClasses[light.color]} shadow-lg scale-100`
                         : 'bg-slate-700 shadow-sm scale-85'
-                    } hover:scale-110 hover:shadow-2xl cursor-pointer`}
+                    } hover:scale-110 hover:shadow-2xl cursor-pointer border-0 p-0`}
+                    aria-label={`Toggle light ${light.id}`}
                   />
                   <div
-                    className={`absolute inset-0 rounded-full blur-md transition-opacity duration-75 ${
+                    className={`absolute inset-0 rounded-full blur-md transition-opacity duration-75 pointer-events-none ${
                       light.isOn
                         ? `${colorClasses[light.color]} opacity-50`
                         : 'opacity-0'
