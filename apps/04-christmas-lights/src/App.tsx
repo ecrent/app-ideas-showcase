@@ -28,10 +28,10 @@ function Light({ color, isLit }: { color: LightColor; isLit: boolean }) {
     <div className="flex flex-col items-center gap-2">
       <div
         className={`w-8 h-8 rounded-full transition-all duration-200 ${
-          isLit ? colorClasses[color] : 'bg-gray-600 shadow-none'
+          isLit ? colorClasses[color] : 'bg-gray-700 shadow-none'
         }`}
       />
-      <div className="w-1 h-3 bg-amber-700" />
+      <div className="w-1 h-4 bg-amber-900" />
     </div>
   )
 }
@@ -130,11 +130,13 @@ export default function App() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-slate-900 to-slate-800 flex flex-col items-center justify-center p-8">
-      <h1 className="text-5xl font-bold text-white mb-2">Christmas Lights</h1>
-      <p className="text-slate-300 mb-12">Festive animated light display</p>
+    <div className="min-h-screen bg-gradient-to-b from-slate-950 via-slate-900 to-slate-800 flex flex-col items-center justify-center p-8">
+      <div className="text-center mb-16">
+        <h1 className="text-6xl font-bold text-white mb-3">🎄 Christmas Lights 🎄</h1>
+        <p className="text-slate-400 text-lg">Festive animated light display</p>
+      </div>
 
-      <div className="flex flex-col gap-6 mb-12">
+      <div className="flex flex-col gap-8 mb-16 bg-slate-900/50 p-8 rounded-xl backdrop-blur">
         {lightStrings.map((lightString) => (
           <LightStringDisplay
             key={lightString.id}
@@ -144,36 +146,39 @@ export default function App() {
         ))}
       </div>
 
-      <div className="flex flex-col gap-6 bg-slate-700 p-6 rounded-lg shadow-lg">
-        <div className="flex flex-wrap gap-3 justify-center">
+      <div className="flex flex-col gap-6 bg-slate-800/80 p-8 rounded-xl shadow-2xl backdrop-blur border border-slate-700">
+        <div className="flex flex-wrap gap-4 justify-center">
           <button
             onClick={toggleAnimation}
-            className="px-6 py-2 bg-red-500 hover:bg-red-600 text-white font-semibold rounded-lg transition-colors"
+            className="px-8 py-3 bg-red-600 hover:bg-red-500 text-white font-bold rounded-lg transition-colors shadow-lg hover:shadow-red-500/50 hover:shadow-xl"
           >
-            {isAnimating ? 'Pause' : 'Play'}
+            {isAnimating ? '⏸ Pause' : '▶ Play'}
           </button>
           <button
             onClick={reset}
-            className="px-6 py-2 bg-green-500 hover:bg-green-600 text-white font-semibold rounded-lg transition-colors"
+            className="px-8 py-3 bg-green-600 hover:bg-green-500 text-white font-bold rounded-lg transition-colors shadow-lg hover:shadow-green-500/50 hover:shadow-xl"
           >
-            Reset
+            ↻ Reset
           </button>
         </div>
 
-        <div className="flex flex-wrap gap-3 justify-center">
-          {lightStrings.map((lightString) => (
-            <button
-              key={lightString.id}
-              onClick={() => toggleString(lightString.id)}
-              className={`px-4 py-1 rounded font-semibold transition-colors ${
-                lightString.isActive
-                  ? 'bg-blue-500 hover:bg-blue-600 text-white'
-                  : 'bg-gray-600 hover:bg-gray-700 text-gray-300'
-              }`}
-            >
-              String {lightString.id + 1}
-            </button>
-          ))}
+        <div className="border-t border-slate-600 pt-6">
+          <p className="text-slate-400 text-sm mb-4 text-center font-medium">LIGHT STRINGS</p>
+          <div className="flex flex-wrap gap-3 justify-center">
+            {lightStrings.map((lightString) => (
+              <button
+                key={lightString.id}
+                onClick={() => toggleString(lightString.id)}
+                className={`px-5 py-2 rounded-lg font-semibold transition-all ${
+                  lightString.isActive
+                    ? 'bg-blue-600 hover:bg-blue-500 text-white shadow-lg hover:shadow-blue-500/50'
+                    : 'bg-slate-700 hover:bg-slate-600 text-slate-300'
+                }`}
+              >
+                String {lightString.id + 1}
+              </button>
+            ))}
+          </div>
         </div>
       </div>
     </div>

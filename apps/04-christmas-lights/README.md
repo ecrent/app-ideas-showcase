@@ -4,7 +4,17 @@
 
 ## Description
 
-Animated Christmas lights display
+An interactive animated Christmas lights display with multiple independent light strings. Watch colorful lights twinkle in a festive pattern. Play, pause, reset, and toggle individual strings on and off.
+
+## Features
+
+- Three animated light strings with independent speeds
+- Play/Pause animation controls
+- Reset animation to random state
+- Toggle individual light strings on/off
+- Colorful light effects with glowing shadows
+- Festive dark theme with gradient background
+- Smooth animations and transitions
 
 ## Tech Stack
 
@@ -24,14 +34,16 @@ npm run dev
 
 Coming soon — [GitHub Pages](https://ecrent.github.io/app-ideas-showcase/apps/04-christmas-lights/)
 
-## Screenshots
+## Controls
 
-_Add screenshots here_
+- **Play/Pause**: Start or stop the animation
+- **Reset**: Randomize the lit lights
+- **String Buttons**: Toggle individual light strings on/off
 
 ## Status
 
 - [x] Scaffolded
-- [ ] Core logic
-- [ ] Styling
-- [ ] Tests / polish
+- [x] Core logic
+- [x] Styling
+- [x] Tests / polish
 - [ ] Deployed
