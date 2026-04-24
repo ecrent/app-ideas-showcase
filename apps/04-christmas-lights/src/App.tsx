@@ -44,7 +44,7 @@ function LightStringDisplay({
   litIndices: Set<number>
 }) {
   return (
-    <div className="flex gap-8 justify-center opacity-80 hover:opacity-100 transition-opacity">
+    <div className="flex gap-6 justify-center opacity-85 hover:opacity-100 transition-opacity">
       {lightString.lights.map((light) => (
         <Light
           key={light.id}
@@ -61,16 +61,16 @@ function LightStringDisplay({
 export default function App() {
   const createLightString = (id: number): LightString => ({
     id,
-    lights: Array.from({ length: 15 }, (_, i) => ({
+    lights: Array.from({ length: 20 }, (_, i) => ({
       id: i,
       color: colors[i % colors.length],
     })),
     isActive: true,
-    speed: 300 + id * 100,
+    speed: 250 + id * 120,
   })
 
   const [lightStrings, setLightStrings] = useState<LightString[]>(
-    Array.from({ length: 3 }, (_, i) => createLightString(i))
+    Array.from({ length: 4 }, (_, i) => createLightString(i))
   )
   const [isAnimating, setIsAnimating] = useState(true)
   const [litIndicesList, setLitIndicesList] = useState<Map<number, Set<number>>>(
