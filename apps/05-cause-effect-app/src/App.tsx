@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 
 interface CauseEffect {
   id: string
@@ -6,10 +6,27 @@ interface CauseEffect {
   effect: string
 }
 
+const STORAGE_KEY = 'cause-effect-pairs'
+
 export default function App() {
   const [pairs, setPairs] = useState<CauseEffect[]>([])
   const [cause, setCause] = useState('')
   const [effect, setEffect] = useState('')
+
+  useEffect(() => {
+    const saved = localStorage.getItem(STORAGE_KEY)
+    if (saved) {
+      try {
+        setPairs(JSON.parse(saved))
+      } catch {
+        setPairs([])
+      }
+    }
+  }, [])
+
+  useEffect(() => {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(pairs))
+  }, [pairs])
 
   const addPair = () => {
     if (cause.trim() && effect.trim()) {
@@ -25,6 +42,12 @@ export default function App() {
 
   const removePair = (id: string) => {
     setPairs(pairs.filter(pair => pair.id !== id))
+  }
+
+  const clearAll = () => {
+    if (window.confirm('Are you sure you want to clear all relationships?')) {
+      setPairs([])
+    }
   }
 
   const handleKeyPress = (e: React.KeyboardEvent) => {
@@ -86,37 +109,50 @@ export default function App() {
             <p className="text-lg">No relationships yet. Create one to get started!</p>
           </div>
         ) : (
-          <div className="space-y-4">
-            <h2 className="text-xl font-semibold text-gray-900 mb-4">Relationships ({pairs.length})</h2>
-            {pairs.map((pair) => (
-              <div
-                key={pair.id}
-                className="bg-white rounded-lg shadow-md p-6 hover:shadow-lg transition"
+          <div className="space-y-6">
+            <div className="flex items-center justify-between">
+              <h2 className="text-xl font-semibold text-gray-900">Relationships ({pairs.length})</h2>
+              <button
+                onClick={clearAll}
+                className="text-sm text-red-600 hover:text-red-800 transition font-medium"
               >
-                <div className="flex items-center gap-4">
-                  <div className="flex-1">
-                    <div className="bg-blue-50 border-l-4 border-blue-500 rounded p-4">
-                      <p className="text-sm text-gray-600 font-semibold uppercase">Cause</p>
-                      <p className="text-lg text-gray-900 font-medium">{pair.cause}</p>
+                Clear All
+              </button>
+            </div>
+            <div className="space-y-4">
+              {pairs.map((pair, index) => (
+                <div
+                  key={pair.id}
+                  className="bg-white rounded-lg shadow-md p-6 hover:shadow-lg transition"
+                >
+                  <div className="flex items-center gap-4">
+                    <div className="w-8 h-8 rounded-full bg-gray-200 text-gray-700 flex items-center justify-center font-semibold text-sm flex-shrink-0">
+                      {index + 1}
                     </div>
-                  </div>
-                  <div className="text-2xl text-gray-400">→</div>
-                  <div className="flex-1">
-                    <div className="bg-green-50 border-l-4 border-green-500 rounded p-4">
-                      <p className="text-sm text-gray-600 font-semibold uppercase">Effect</p>
-                      <p className="text-lg text-gray-900 font-medium">{pair.effect}</p>
+                    <div className="flex-1">
+                      <div className="bg-blue-50 border-l-4 border-blue-500 rounded p-3">
+                        <p className="text-xs text-gray-600 font-semibold uppercase">Cause</p>
+                        <p className="text-base text-gray-900 font-medium">{pair.cause}</p>
+                      </div>
                     </div>
+                    <div className="text-2xl text-gray-400 flex-shrink-0">→</div>
+                    <div className="flex-1">
+                      <div className="bg-green-50 border-l-4 border-green-500 rounded p-3">
+                        <p className="text-xs text-gray-600 font-semibold uppercase">Effect</p>
+                        <p className="text-base text-gray-900 font-medium">{pair.effect}</p>
+                      </div>
+                    </div>
+                    <button
+                      onClick={() => removePair(pair.id)}
+                      className="text-red-500 hover:text-red-700 transition p-2 font-bold flex-shrink-0"
+                      title="Delete"
+                    >
+                      ✕
+                    </button>
                   </div>
-                  <button
-                    onClick={() => removePair(pair.id)}
-                    className="text-red-500 hover:text-red-700 transition p-2 font-bold"
-                    title="Delete"
-                  >
-                    ✕
-                  </button>
                 </div>
-              </div>
-            ))}
+              ))}
+            </div>
           </div>
         )}
       </div>
