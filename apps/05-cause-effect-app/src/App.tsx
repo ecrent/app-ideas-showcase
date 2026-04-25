@@ -56,6 +56,37 @@ export default function App() {
     }
   }
 
+  const findChains = (): Array<CauseEffect[]> => {
+    const chains: Array<CauseEffect[]> = []
+    const visited = new Set<string>()
+
+    pairs.forEach(pair => {
+      if (visited.has(pair.id)) return
+
+      const chain: CauseEffect[] = [pair]
+      visited.add(pair.id)
+      let currentEffect = pair.effect
+
+      while (true) {
+        const nextPair = pairs.find(
+          p => p.cause.toLowerCase() === currentEffect.toLowerCase() && !visited.has(p.id)
+        )
+        if (!nextPair) break
+        chain.push(nextPair)
+        visited.add(nextPair.id)
+        currentEffect = nextPair.effect
+      }
+
+      if (chain.length > 1 || !pairs.some(p => p.effect.toLowerCase() === pair.cause.toLowerCase())) {
+        chains.push(chain)
+      }
+    })
+
+    return chains.length > 0 ? chains : []
+  }
+
+  const chains = findChains()
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 p-6">
       <div className="max-w-4xl mx-auto">
@@ -109,49 +140,85 @@ export default function App() {
             <p className="text-lg">No relationships yet. Create one to get started!</p>
           </div>
         ) : (
-          <div className="space-y-6">
-            <div className="flex items-center justify-between">
-              <h2 className="text-xl font-semibold text-gray-900">Relationships ({pairs.length})</h2>
-              <button
-                onClick={clearAll}
-                className="text-sm text-red-600 hover:text-red-800 transition font-medium"
-              >
-                Clear All
-              </button>
-            </div>
-            <div className="space-y-4">
-              {pairs.map((pair, index) => (
-                <div
-                  key={pair.id}
-                  className="bg-white rounded-lg shadow-md p-6 hover:shadow-lg transition"
-                >
-                  <div className="flex items-center gap-4">
-                    <div className="w-8 h-8 rounded-full bg-gray-200 text-gray-700 flex items-center justify-center font-semibold text-sm flex-shrink-0">
-                      {index + 1}
-                    </div>
-                    <div className="flex-1">
-                      <div className="bg-blue-50 border-l-4 border-blue-500 rounded p-3">
-                        <p className="text-xs text-gray-600 font-semibold uppercase">Cause</p>
-                        <p className="text-base text-gray-900 font-medium">{pair.cause}</p>
-                      </div>
-                    </div>
-                    <div className="text-2xl text-gray-400 flex-shrink-0">→</div>
-                    <div className="flex-1">
-                      <div className="bg-green-50 border-l-4 border-green-500 rounded p-3">
-                        <p className="text-xs text-gray-600 font-semibold uppercase">Effect</p>
-                        <p className="text-base text-gray-900 font-medium">{pair.effect}</p>
-                      </div>
-                    </div>
-                    <button
-                      onClick={() => removePair(pair.id)}
-                      className="text-red-500 hover:text-red-700 transition p-2 font-bold flex-shrink-0"
-                      title="Delete"
+          <div className="space-y-8">
+            {chains.length > 0 && (
+              <div className="space-y-4">
+                <h2 className="text-xl font-semibold text-gray-900">Chains ({chains.length})</h2>
+                <div className="space-y-4">
+                  {chains.map((chain, chainIndex) => (
+                    <div
+                      key={chainIndex}
+                      className="bg-white rounded-lg shadow-md p-6 hover:shadow-lg transition"
                     >
-                      ✕
-                    </button>
-                  </div>
+                      <div className="space-y-3">
+                        {chain.map((item, itemIndex) => (
+                          <div key={item.id} className="flex items-center gap-2">
+                            <div className="bg-purple-50 border-l-4 border-purple-500 rounded p-2 flex-1">
+                              <p className="text-xs text-gray-500 font-semibold uppercase">
+                                {itemIndex === 0 ? 'Start' : 'Then'}
+                              </p>
+                              <p className="text-sm text-gray-900 font-medium">{item.cause}</p>
+                            </div>
+                            <div className="text-lg text-purple-400">→</div>
+                            <div className="bg-purple-50 border-l-4 border-purple-500 rounded p-2 flex-1">
+                              <p className="text-xs text-gray-500 font-semibold uppercase">
+                                Results in
+                              </p>
+                              <p className="text-sm text-gray-900 font-medium">{item.effect}</p>
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  ))}
                 </div>
-              ))}
+              </div>
+            )}
+
+            <div className="space-y-4">
+              <div className="flex items-center justify-between">
+                <h2 className="text-xl font-semibold text-gray-900">All Relationships ({pairs.length})</h2>
+                <button
+                  onClick={clearAll}
+                  className="text-sm text-red-600 hover:text-red-800 transition font-medium"
+                >
+                  Clear All
+                </button>
+              </div>
+              <div className="space-y-4">
+                {pairs.map((pair, index) => (
+                  <div
+                    key={pair.id}
+                    className="bg-white rounded-lg shadow-md p-6 hover:shadow-lg transition"
+                  >
+                    <div className="flex items-center gap-4">
+                      <div className="w-8 h-8 rounded-full bg-gray-200 text-gray-700 flex items-center justify-center font-semibold text-sm flex-shrink-0">
+                        {index + 1}
+                      </div>
+                      <div className="flex-1">
+                        <div className="bg-blue-50 border-l-4 border-blue-500 rounded p-3">
+                          <p className="text-xs text-gray-600 font-semibold uppercase">Cause</p>
+                          <p className="text-base text-gray-900 font-medium">{pair.cause}</p>
+                        </div>
+                      </div>
+                      <div className="text-2xl text-gray-400 flex-shrink-0">→</div>
+                      <div className="flex-1">
+                        <div className="bg-green-50 border-l-4 border-green-500 rounded p-3">
+                          <p className="text-xs text-gray-600 font-semibold uppercase">Effect</p>
+                          <p className="text-base text-gray-900 font-medium">{pair.effect}</p>
+                        </div>
+                      </div>
+                      <button
+                        onClick={() => removePair(pair.id)}
+                        className="text-red-500 hover:text-red-700 transition p-2 font-bold flex-shrink-0"
+                        title="Delete"
+                      >
+                        ✕
+                      </button>
+                    </div>
+                  </div>
+                ))}
+              </div>
             </div>
           </div>
         )}
