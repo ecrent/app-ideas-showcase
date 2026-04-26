@@ -2,7 +2,7 @@
 
 working my way through all the projects from [florinpop17/app-ideas](https://github.com/florinpop17/app-ideas). building each one with React, TypeScript, and Tailwind.
 
-4/82 done so far.
+5/82 done so far.
 
 ---
 
@@ -12,7 +12,7 @@ working my way through all the projects from [florinpop17/app-ideas](https://git
 - [Border Radius Previewer](https://ecrent.github.io/app-ideas-showcase/apps/02-border-radius-previewer/)
 - [Calculator](https://ecrent.github.io/app-ideas-showcase/apps/03-calculator/)
 - [Christmas Lights](https://ecrent.github.io/app-ideas-showcase/apps/04-christmas-lights/)
-- Cause Effect App
+- [Cause Effect App](https://ecrent.github.io/app-ideas-showcase/apps/05-cause-effect-app/)
 - Color Cycle
 - Countdown Timer
 - CSV2JSON
