@@ -128,7 +128,7 @@ export default function App() {
             </div>
             <button
               onClick={addPair}
-              className="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded-lg transition"
+              className="w-full bg-blue-600 hover:bg-blue-700 active:bg-blue-800 text-white font-semibold py-2 px-4 rounded-lg transition duration-200"
             >
               + Add Relationship
             </button>
@@ -136,8 +136,9 @@ export default function App() {
         </div>
 
         {pairs.length === 0 ? (
-          <div className="text-center text-gray-500 py-12">
-            <p className="text-lg">No relationships yet. Create one to get started!</p>
+          <div className="text-center text-gray-400 py-16 px-6">
+            <p className="text-lg font-medium">No relationships yet. Create one to get started!</p>
+            <p className="text-sm text-gray-400 mt-2">Try something like: "It rains" → "The ground gets wet"</p>
           </div>
         ) : (
           <div className="space-y-8">
@@ -180,7 +181,7 @@ export default function App() {
                 <h2 className="text-xl font-semibold text-gray-900">All Relationships ({pairs.length})</h2>
                 <button
                   onClick={clearAll}
-                  className="text-sm text-red-600 hover:text-red-800 transition font-medium"
+                  className="text-sm px-3 py-1 rounded-lg text-red-600 hover:bg-red-100 hover:text-red-800 transition font-medium"
                 >
                   Clear All
                 </button>
@@ -210,8 +211,9 @@ export default function App() {
                       </div>
                       <button
                         onClick={() => removePair(pair.id)}
-                        className="text-red-500 hover:text-red-700 transition p-2 font-bold flex-shrink-0"
-                        title="Delete"
+                        className="text-red-500 hover:bg-red-100 hover:text-red-700 transition p-2 rounded-lg font-bold flex-shrink-0"
+                        title="Delete relationship"
+                        aria-label="Delete relationship"
                       >
                         ✕
                       </button>
