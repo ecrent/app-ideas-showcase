@@ -6,6 +6,7 @@ export default function App() {
   const [seconds, setSeconds] = useState(0)
   const [totalSeconds, setTotalSeconds] = useState(60)
   const [isRunning, setIsRunning] = useState(false)
+  const [isCompleted, setIsCompleted] = useState(false)
 
   useEffect(() => {
     if (!isRunning || totalSeconds <= 0) return
@@ -14,6 +15,7 @@ export default function App() {
       setTotalSeconds(prev => {
         if (prev <= 1) {
           setIsRunning(false)
+          setIsCompleted(true)
           return 0
         }
         return prev - 1
@@ -28,9 +30,19 @@ export default function App() {
     setTotalSeconds(total)
   }
 
+  const setPreset = (seconds: number) => {
+    setIsRunning(false)
+    setIsCompleted(false)
+    setTotalSeconds(seconds)
+    setHours(Math.floor(seconds / 3600))
+    setMinutes(Math.floor((seconds % 3600) / 60))
+    setSeconds(seconds % 60)
+  }
+
   const handleStart = () => {
     if (totalSeconds > 0) {
       setIsRunning(true)
+      setIsCompleted(false)
     }
   }
 
@@ -40,6 +52,7 @@ export default function App() {
 
   const handleReset = () => {
     setIsRunning(false)
+    setIsCompleted(false)
     const total = hours * 3600 + minutes * 60 + seconds
     setTotalSeconds(total)
   }
@@ -65,25 +78,31 @@ export default function App() {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 flex items-center justify-center p-4">
-      <div className="bg-white rounded-2xl shadow-2xl p-8 max-w-md w-full">
+      <div className={`rounded-2xl shadow-2xl p-8 max-w-md w-full transition-all duration-300 ${
+        isCompleted ? 'bg-green-50 border-2 border-green-500' : 'bg-white'
+      }`}>
         <h1 className="text-4xl font-bold text-center text-gray-900 mb-8">Countdown Timer</h1>
 
-        <div className="bg-gray-900 rounded-xl p-8 mb-8 text-center">
+        <div className={`rounded-xl p-8 mb-8 text-center transition-all duration-300 ${
+          isRunning ? 'bg-blue-600 ring-4 ring-blue-300' : 'bg-gray-900'
+        }`}>
           <div className="text-6xl font-mono font-bold text-white tracking-wider">
             {String(displayHours).padStart(2, '0')}:{String(displayMinutes).padStart(2, '0')}:{String(displaySeconds).padStart(2, '0')}
           </div>
+          {isCompleted && (
+            <div className="text-xl font-semibold text-green-600 mt-4">✓ Time's up!</div>
+          )}
         </div>
 
-        {!isRunning && (
-          <div className="grid grid-cols-3 gap-4 mb-8">
+        {!isRunning && !isCompleted && (
+          <div className="grid grid-cols-3 gap-4 mb-6">
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">Hours</label>
               <input
                 type="number"
                 value={hours}
                 onChange={handleHoursChange}
-                disabled={isRunning}
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg text-center text-lg font-semibold focus:outline-none focus:ring-2 focus:ring-blue-500 disabled:bg-gray-100"
+                className="w-full px-4 py-2 border border-gray-300 rounded-lg text-center text-lg font-semibold focus:outline-none focus:ring-2 focus:ring-blue-500"
                 min="0"
               />
             </div>
@@ -93,8 +112,7 @@ export default function App() {
                 type="number"
                 value={minutes}
                 onChange={handleMinutesChange}
-                disabled={isRunning}
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg text-center text-lg font-semibold focus:outline-none focus:ring-2 focus:ring-blue-500 disabled:bg-gray-100"
+                className="w-full px-4 py-2 border border-gray-300 rounded-lg text-center text-lg font-semibold focus:outline-none focus:ring-2 focus:ring-blue-500"
                 min="0"
                 max="59"
               />
@@ -105,8 +123,7 @@ export default function App() {
                 type="number"
                 value={seconds}
                 onChange={handleSecondsChange}
-                disabled={isRunning}
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg text-center text-lg font-semibold focus:outline-none focus:ring-2 focus:ring-blue-500 disabled:bg-gray-100"
+                className="w-full px-4 py-2 border border-gray-300 rounded-lg text-center text-lg font-semibold focus:outline-none focus:ring-2 focus:ring-blue-500"
                 min="0"
                 max="59"
               />
@@ -114,7 +131,36 @@ export default function App() {
           </div>
         )}
 
-        <div className="flex gap-4 mb-4">
+        {!isRunning && !isCompleted && (
+          <div className="grid grid-cols-2 gap-3 mb-6">
+            <button
+              onClick={() => setPreset(300)}
+              className="bg-blue-100 hover:bg-blue-200 text-blue-700 font-semibold py-2 px-3 rounded-lg transition duration-150 text-sm"
+            >
+              5 min
+            </button>
+            <button
+              onClick={() => setPreset(600)}
+              className="bg-blue-100 hover:bg-blue-200 text-blue-700 font-semibold py-2 px-3 rounded-lg transition duration-150 text-sm"
+            >
+              10 min
+            </button>
+            <button
+              onClick={() => setPreset(900)}
+              className="bg-blue-100 hover:bg-blue-200 text-blue-700 font-semibold py-2 px-3 rounded-lg transition duration-150 text-sm"
+            >
+              15 min
+            </button>
+            <button
+              onClick={() => setPreset(1800)}
+              className="bg-blue-100 hover:bg-blue-200 text-blue-700 font-semibold py-2 px-3 rounded-lg transition duration-150 text-sm"
+            >
+              30 min
+            </button>
+          </div>
+        )}
+
+        <div className="flex gap-4">
           {!isRunning ? (
             <button
               onClick={() => {
