@@ -1,9 +1,9 @@
 {
   "meta": {
     "start_date": "2026-04-09",
-    "current_app_index": 3,
+    "current_app_index": 6,
     "total_apps": 82,
-    "completed_apps": 3
+    "completed_apps": 6
   },
   "apps": [
     {
@@ -48,10 +48,10 @@
       "name": "Christmas Lights",
       "tier": 1,
       "days": 2,
-      "status": "upcoming",
-      "start_date": null,
-      "end_date": null,
-      "commits": 0,
+      "status": "completed",
+      "start_date": "2026-04-23",
+      "end_date": "2026-04-24",
+      "commits": 6,
       "description": "Animated Christmas lights display"
     },
     {
@@ -60,10 +60,10 @@
       "name": "Cause Effect App",
       "tier": 1,
       "days": 2,
-      "status": "upcoming",
-      "start_date": null,
-      "end_date": null,
-      "commits": 0,
+      "status": "completed",
+      "start_date": "2026-04-25",
+      "end_date": "2026-04-26",
+      "commits": 4,
       "description": "Interactive cause and effect visualizer"
     },
     {
@@ -72,10 +72,10 @@
       "name": "Color Cycle",
       "tier": 1,
       "days": 2,
-      "status": "upcoming",
-      "start_date": null,
-      "end_date": null,
-      "commits": 0,
+      "status": "completed",
+      "start_date": "2026-04-27",
+      "end_date": "2026-04-28",
+      "commits": 2,
       "description": "Cycling background color animation"
     },
     {
@@ -84,9 +84,9 @@
       "name": "Countdown Timer",
       "tier": 1,
       "days": 2,
-      "status": "upcoming",
-      "start_date": null,
-      "end_date": null,
+      "status": "in-progress",
+      "start_date": "2026-04-29",
+      "end_date": "2026-04-30",
       "commits": 0,
       "description": "Configurable countdown timer"
     },
