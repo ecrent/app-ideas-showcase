@@ -9,12 +9,12 @@
   }
 }
 
-@keyframes pulse {
+@keyframes cardPulse {
   0%, 100% {
-    opacity: 1;
+    transform: scale(1);
   }
   50% {
-    opacity: 0.7;
+    transform: scale(1.02);
   }
 }
 
@@ -22,6 +22,6 @@
   animation: fadeInScale 0.3s ease-out;
 }
 
-.playing .color-swatch {
-  animation: pulse 1s ease-in-out infinite;
+.playing {
+  animation: cardPulse 2s ease-in-out infinite;
 }
