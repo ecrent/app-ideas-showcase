@@ -61,6 +61,9 @@ export default function App() {
   const displayMinutes = Math.floor((totalSeconds % 3600) / 60)
   const displaySeconds = totalSeconds % 60
 
+  const initialTotal = hours * 3600 + minutes * 60 + seconds
+  const progressPercent = initialTotal > 0 ? ((initialTotal - totalSeconds) / initialTotal) * 100 : 0
+
   const handleHoursChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = Math.max(0, parseInt(e.target.value) || 0)
     setHours(value)
@@ -83,9 +86,17 @@ export default function App() {
       }`}>
         <h1 className="text-4xl font-bold text-center text-gray-900 mb-8">Countdown Timer</h1>
 
-        <div className={`rounded-xl p-8 mb-8 text-center transition-all duration-300 ${
+        <div className={`rounded-xl p-8 mb-8 text-center transition-all duration-300 relative overflow-hidden ${
           isRunning ? 'bg-blue-600 ring-4 ring-blue-300' : 'bg-gray-900'
         }`}>
+          {isRunning && initialTotal > 0 && (
+            <div className="absolute bottom-0 left-0 right-0 h-1 bg-blue-400">
+              <div
+                className="h-full bg-blue-300 transition-all duration-1000"
+                style={{ width: `${progressPercent}%` }}
+              ></div>
+            </div>
+          )}
           <div className="text-6xl font-mono font-bold text-white tracking-wider">
             {String(displayHours).padStart(2, '0')}:{String(displayMinutes).padStart(2, '0')}:{String(displaySeconds).padStart(2, '0')}
           </div>
