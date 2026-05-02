@@ -91,9 +91,14 @@ David Brown,38,Houston,david@example.com`
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 via-purple-50 to-pink-50 py-12 px-4">
       <div className="max-w-6xl mx-auto">
-        <div className="mb-8">
-          <h1 className="text-4xl font-bold text-gray-900 mb-2">CSV to JSON</h1>
-          <p className="text-gray-600">Convert your CSV data to JSON format instantly</p>
+        <div className="mb-8 text-center">
+          <div className="inline-block mb-4">
+            <div className="text-5xl">📊</div>
+          </div>
+          <h1 className="text-4xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent mb-2">
+            CSV to JSON
+          </h1>
+          <p className="text-gray-600 text-lg">Convert your CSV data to JSON format instantly</p>
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
@@ -137,6 +142,7 @@ David Brown,38,Houston,david@example.com`
                 onChange={(e) => {
                   setCsvText(e.target.value)
                   setError('')
+                  setJsonOutput('')
                 }}
                 placeholder="Paste your CSV data here...&#10;&#10;Example:&#10;name,email,country&#10;John,john@example.com,USA&#10;Jane,jane@example.com,UK"
                 className="w-full h-64 p-3 border border-gray-300 rounded-lg font-mono text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent resize-none placeholder-gray-400"
@@ -192,13 +198,37 @@ David Brown,38,Houston,david@example.com`
 
         {/* Info Section */}
         <div className="mt-8 bg-white rounded-lg shadow-md p-6">
-          <h3 className="text-lg font-semibold text-gray-900 mb-3">How to use:</h3>
-          <ul className="text-gray-700 space-y-2 list-disc list-inside">
-            <li>Upload a CSV file or paste CSV data directly into the input area</li>
-            <li>The first row should contain column headers</li>
-            <li>Click "Convert to JSON" to transform your data</li>
-            <li>Copy the JSON output or download it as a file</li>
-          </ul>
+          <h3 className="text-lg font-semibold text-gray-900 mb-4">📋 How to use:</h3>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div className="flex gap-3">
+              <div className="text-2xl">📁</div>
+              <div>
+                <p className="font-semibold text-gray-900 mb-1">Upload or Paste</p>
+                <p className="text-gray-600 text-sm">Use the upload button or paste CSV data directly</p>
+              </div>
+            </div>
+            <div className="flex gap-3">
+              <div className="text-2xl">📝</div>
+              <div>
+                <p className="font-semibold text-gray-900 mb-1">CSV Format</p>
+                <p className="text-gray-600 text-sm">First row = headers, comma-separated values</p>
+              </div>
+            </div>
+            <div className="flex gap-3">
+              <div className="text-2xl">⚡</div>
+              <div>
+                <p className="font-semibold text-gray-900 mb-1">Convert</p>
+                <p className="text-gray-600 text-sm">Click "Convert to JSON" to transform your data</p>
+              </div>
+            </div>
+            <div className="flex gap-3">
+              <div className="text-2xl">💾</div>
+              <div>
+                <p className="font-semibold text-gray-900 mb-1">Export</p>
+                <p className="text-gray-600 text-sm">Copy to clipboard or download as a file</p>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </div>
