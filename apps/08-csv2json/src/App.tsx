@@ -1,10 +1,18 @@
-import { useState, useRef } from 'react'
+import { useState, useRef, useEffect } from 'react'
 
 export default function App() {
   const [csvText, setCsvText] = useState('')
   const [jsonOutput, setJsonOutput] = useState('')
   const [error, setError] = useState('')
+  const [copied, setCopied] = useState(false)
   const fileInputRef = useRef<HTMLInputElement>(null)
+
+  useEffect(() => {
+    if (copied) {
+      const timer = setTimeout(() => setCopied(false), 2000)
+      return () => clearTimeout(timer)
+    }
+  }, [copied])
 
   const parseCSV = (csv: string): string => {
     const lines = csv.trim().split('\n').filter(line => line.trim())
@@ -54,6 +62,7 @@ export default function App() {
   const handleCopy = () => {
     if (jsonOutput) {
       navigator.clipboard.writeText(jsonOutput)
+      setCopied(true)
     }
   }
 
@@ -66,6 +75,17 @@ export default function App() {
     document.body.appendChild(element)
     element.click()
     document.body.removeChild(element)
+  }
+
+  const handleLoadSample = () => {
+    const sample = `name,age,city,email
+Alice Johnson,32,San Francisco,alice@example.com
+Bob Smith,28,New York,bob@example.com
+Carol White,45,Chicago,carol@example.com
+David Brown,38,Houston,david@example.com`
+    setCsvText(sample)
+    setError('')
+    setJsonOutput('')
   }
 
   return (
@@ -82,12 +102,18 @@ export default function App() {
             <div className="bg-white rounded-lg shadow-md p-6">
               <h2 className="text-xl font-semibold text-gray-900 mb-4">CSV Input</h2>
 
-              <div className="mb-4">
+              <div className="mb-4 flex gap-2">
                 <button
                   onClick={() => fileInputRef.current?.click()}
-                  className="w-full px-4 py-2 bg-blue-500 hover:bg-blue-600 text-white font-medium rounded-lg transition-colors mb-2"
+                  className="flex-1 px-4 py-2 bg-blue-500 hover:bg-blue-600 text-white font-medium rounded-lg transition-colors"
                 >
-                  Upload CSV File
+                  Upload File
+                </button>
+                <button
+                  onClick={handleLoadSample}
+                  className="flex-1 px-4 py-2 bg-gray-500 hover:bg-gray-600 text-white font-medium rounded-lg transition-colors"
+                >
+                  Load Sample
                 </button>
                 <input
                   ref={fileInputRef}
@@ -112,8 +138,8 @@ export default function App() {
                   setCsvText(e.target.value)
                   setError('')
                 }}
-                placeholder="name,age,city&#10;John,28,New York&#10;Jane,34,Los Angeles&#10;Bob,45,Chicago"
-                className="w-full h-64 p-3 border border-gray-300 rounded-lg font-mono text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent resize-none"
+                placeholder="Paste your CSV data here...&#10;&#10;Example:&#10;name,email,country&#10;John,john@example.com,USA&#10;Jane,jane@example.com,UK"
+                className="w-full h-64 p-3 border border-gray-300 rounded-lg font-mono text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent resize-none placeholder-gray-400"
               />
 
               {error && (
@@ -140,9 +166,13 @@ export default function App() {
                 <div className="flex gap-2 mb-4">
                   <button
                     onClick={handleCopy}
-                    className="flex-1 px-3 py-2 bg-green-500 hover:bg-green-600 text-white font-medium text-sm rounded-lg transition-colors"
+                    className={`flex-1 px-3 py-2 font-medium text-sm rounded-lg transition-colors ${
+                      copied
+                        ? 'bg-green-600 text-white'
+                        : 'bg-green-500 hover:bg-green-600 text-white'
+                    }`}
                   >
-                    Copy
+                    {copied ? '✓ Copied!' : 'Copy'}
                   </button>
                   <button
                     onClick={handleDownload}
