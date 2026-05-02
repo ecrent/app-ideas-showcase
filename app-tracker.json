@@ -1,9 +1,9 @@
 {
   "meta": {
     "start_date": "2026-04-09",
-    "current_app_index": 6,
+    "current_app_index": 7,
     "total_apps": 82,
-    "completed_apps": 6
+    "completed_apps": 7
   },
   "apps": [
     {
@@ -84,10 +84,10 @@
       "name": "Countdown Timer",
       "tier": 1,
       "days": 2,
-      "status": "in-progress",
+      "status": "completed",
       "start_date": "2026-04-29",
       "end_date": "2026-04-30",
-      "commits": 0,
+      "commits": 5,
       "description": "Configurable countdown timer"
     },
     {
@@ -96,9 +96,9 @@
       "name": "CSV2JSON",
       "tier": 1,
       "days": 2,
-      "status": "upcoming",
-      "start_date": null,
-      "end_date": null,
+      "status": "in-progress",
+      "start_date": "2026-05-01",
+      "end_date": "2026-05-02",
       "commits": 0,
       "description": "CSV to JSON converter"
     },
