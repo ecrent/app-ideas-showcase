@@ -2,7 +2,7 @@
 
 working my way through all the projects from [florinpop17/app-ideas](https://github.com/florinpop17/app-ideas). building each one with React, TypeScript, and Tailwind.
 
-7/82 done so far.
+8/82 done so far.
 
 ---
 
@@ -15,7 +15,7 @@ working my way through all the projects from [florinpop17/app-ideas](https://git
 - [Cause Effect App](https://ecrent.github.io/app-ideas-showcase/apps/05-cause-effect-app/)
 - [Color Cycle](https://ecrent.github.io/app-ideas-showcase/apps/06-color-cycle/)
 - [Countdown Timer](https://ecrent.github.io/app-ideas-showcase/apps/07-countdown-timer/)
-- CSV2JSON
+- [CSV2JSON](https://ecrent.github.io/app-ideas-showcase/apps/08-csv2json/)
 - Dollars to Cents
 - Dynamic CSS Variables
 - First DB App
