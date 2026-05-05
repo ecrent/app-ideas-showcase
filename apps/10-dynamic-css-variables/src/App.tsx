@@ -6,6 +6,10 @@ interface CSSVariable {
   value: string
 }
 
+const isColorValue = (value: string): boolean => {
+  return /^#[0-9a-fA-F]{6}$/.test(value) || /^rgb/.test(value) || /^hsl/.test(value)
+}
+
 export default function App() {
   const [variables, setVariables] = useState<CSSVariable[]>([
     { id: '1', name: '--primary-color', value: '#3b82f6' },
@@ -13,6 +17,13 @@ export default function App() {
     { id: '3', name: '--border-radius', value: '8px' },
     { id: '4', name: '--font-size', value: '16px' },
   ])
+  const [copied, setCopied] = useState(false)
+
+  const copyToClipboard = async (text: string) => {
+    await navigator.clipboard.writeText(text)
+    setCopied(true)
+    setTimeout(() => setCopied(false), 2000)
+  }
 
   const updateVariable = (id: string, field: 'name' | 'value', newValue: string) => {
     setVariables(variables.map(v =>
@@ -55,7 +66,7 @@ export default function App() {
 
             <div className="space-y-4 mb-6">
               {variables.map((variable) => (
-                <div key={variable.id} className="flex gap-2">
+                <div key={variable.id} className="flex gap-2 items-center">
                   <input
                     type="text"
                     value={variable.name}
@@ -63,13 +74,31 @@ export default function App() {
                     placeholder="--variable-name"
                     className="flex-1 px-3 py-2 border border-gray-300 rounded-md text-sm font-mono bg-gray-50"
                   />
-                  <input
-                    type="text"
-                    value={variable.value}
-                    onChange={(e) => updateVariable(variable.id, 'value', e.target.value)}
-                    placeholder="value"
-                    className="flex-1 px-3 py-2 border border-gray-300 rounded-md text-sm font-mono bg-gray-50"
-                  />
+                  {isColorValue(variable.value) ? (
+                    <div className="flex items-center gap-2">
+                      <input
+                        type="color"
+                        value={variable.value}
+                        onChange={(e) => updateVariable(variable.id, 'value', e.target.value)}
+                        className="w-12 h-10 border border-gray-300 rounded-md cursor-pointer"
+                      />
+                      <input
+                        type="text"
+                        value={variable.value}
+                        onChange={(e) => updateVariable(variable.id, 'value', e.target.value)}
+                        placeholder="value"
+                        className="flex-1 px-3 py-2 border border-gray-300 rounded-md text-sm font-mono bg-gray-50"
+                      />
+                    </div>
+                  ) : (
+                    <input
+                      type="text"
+                      value={variable.value}
+                      onChange={(e) => updateVariable(variable.id, 'value', e.target.value)}
+                      placeholder="value"
+                      className="flex-1 px-3 py-2 border border-gray-300 rounded-md text-sm font-mono bg-gray-50"
+                    />
+                  )}
                   <button
                     onClick={() => removeVariable(variable.id)}
                     className="px-3 py-2 bg-red-100 text-red-700 rounded-md hover:bg-red-200 transition text-sm font-medium"
@@ -88,14 +117,22 @@ export default function App() {
             </button>
 
             <div className="mt-8 pt-6 border-t border-gray-200">
-              <h3 className="font-semibold text-gray-900 mb-2">CSS Output</h3>
-              <div className="bg-gray-50 p-4 rounded-md border border-gray-200">
-                <code className="text-xs font-mono text-gray-700 break-all">
-                  :root {'{'}
-                  <br />
-                  {cssVarString}
-                  <br />
-                  {'}'}
+              <div className="flex items-center justify-between mb-2">
+                <h3 className="font-semibold text-gray-900">CSS Output</h3>
+                <button
+                  onClick={() => copyToClipboard(`:root {\n  ${cssVarString}\n}`)}
+                  className={`px-3 py-1 rounded text-sm font-medium transition ${
+                    copied
+                      ? 'bg-green-100 text-green-700'
+                      : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                  }`}
+                >
+                  {copied ? 'Copied!' : 'Copy'}
+                </button>
+              </div>
+              <div className="bg-gray-50 p-4 rounded-md border border-gray-200 overflow-auto">
+                <code className="text-xs font-mono text-gray-700 whitespace-pre">
+                  {`:root {\n  ${cssVarString}\n}`}
                 </code>
               </div>
             </div>
