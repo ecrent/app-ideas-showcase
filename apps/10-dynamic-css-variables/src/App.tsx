@@ -25,6 +25,24 @@ export default function App() {
     setTimeout(() => setCopied(false), 2000)
   }
 
+  const importCSS = (cssText: string) => {
+    const varRegex = /--[\w-]+\s*:\s*[^;]+/g
+    const matches = cssText.match(varRegex)
+
+    if (!matches) return
+
+    const newVars = matches.map((match, idx) => {
+      const [name, value] = match.split(':').map(s => s.trim())
+      return {
+        id: (Math.max(...variables.map(v => parseInt(v.id)), 0) + idx + 1).toString(),
+        name,
+        value
+      }
+    })
+
+    setVariables([...variables, ...newVars])
+  }
+
   const updateVariable = (id: string, field: 'name' | 'value', newValue: string) => {
     setVariables(variables.map(v =>
       v.id === id ? { ...v, [field]: newValue } : v
@@ -111,10 +129,24 @@ export default function App() {
 
             <button
               onClick={addVariable}
-              className="w-full px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition font-medium"
+              className="w-full px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition font-medium mb-6"
             >
               Add Variable
             </button>
+
+            <div className="border-t border-gray-200 pt-6">
+              <h3 className="font-semibold text-gray-900 mb-3">Import from CSS</h3>
+              <textarea
+                placeholder="Paste CSS with variables here..."
+                onPaste={(e) => {
+                  e.preventDefault()
+                  const text = e.clipboardData.getData('text')
+                  importCSS(text)
+                }}
+                className="w-full px-3 py-2 border border-gray-300 rounded-md text-xs font-mono bg-gray-50 h-24 mb-2"
+              />
+              <p className="text-xs text-gray-500">Paste CSS code containing --variable declarations</p>
+            </div>
 
             <div className="mt-8 pt-6 border-t border-gray-200">
               <div className="flex items-center justify-between mb-2">
