@@ -17,7 +17,7 @@ working my way through all the projects from [florinpop17/app-ideas](https://git
 - [Countdown Timer](https://ecrent.github.io/app-ideas-showcase/apps/07-countdown-timer/)
 - [CSV2JSON](https://ecrent.github.io/app-ideas-showcase/apps/08-csv2json/)
 - [Dollars to Cents](https://ecrent.github.io/app-ideas-showcase/apps/09-dollars-to-cents/)
-- Dynamic CSS Variables
+- Dynamic CSS Variables *(in progress)*
 - First DB App
 - Flip Image
 - GitHub Status

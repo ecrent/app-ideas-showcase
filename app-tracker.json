@@ -1,9 +1,9 @@
 {
   "meta": {
     "start_date": "2026-04-09",
-    "current_app_index": 7,
+    "current_app_index": 9,
     "total_apps": 82,
-    "completed_apps": 7
+    "completed_apps": 9
   },
   "apps": [
     {
@@ -96,10 +96,10 @@
       "name": "CSV2JSON",
       "tier": 1,
       "days": 2,
-      "status": "in-progress",
+      "status": "completed",
       "start_date": "2026-05-01",
       "end_date": "2026-05-02",
-      "commits": 0,
+      "commits": 3,
       "description": "CSV to JSON converter"
     },
     {
@@ -108,10 +108,10 @@
       "name": "Dollars to Cents",
       "tier": 1,
       "days": 2,
-      "status": "upcoming",
-      "start_date": null,
-      "end_date": null,
-      "commits": 0,
+      "status": "completed",
+      "start_date": "2026-05-03",
+      "end_date": "2026-05-04",
+      "commits": 2,
       "description": "Dollar amount to cents converter"
     },
     {
@@ -120,10 +120,10 @@
       "name": "Dynamic CSS Variables",
       "tier": 1,
       "days": 2,
-      "status": "upcoming",
-      "start_date": null,
-      "end_date": null,
-      "commits": 0,
+      "status": "in-progress",
+      "start_date": "2026-05-05",
+      "end_date": "2026-05-06",
+      "commits": 3,
       "description": "Live CSS custom variables editor"
     },
     {

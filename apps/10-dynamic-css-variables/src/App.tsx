@@ -31,10 +31,11 @@ export default function App() {
 
     if (!matches) return
 
+    const maxId = Math.max(...variables.map(v => parseInt(v.id)), 0)
     const newVars = matches.map((match, idx) => {
       const [name, value] = match.split(':').map(s => s.trim())
       return {
-        id: (Math.max(...variables.map(v => parseInt(v.id)), 0) + idx + 1).toString(),
+        id: (maxId + idx + 1).toString(),
         name,
         value
       }
@@ -72,25 +73,27 @@ export default function App() {
   })
 
   return (
-    <div className="min-h-screen bg-gray-50 p-6">
+    <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 p-6">
       <div className="max-w-7xl mx-auto">
-        <h1 className="text-4xl font-bold text-gray-900 mb-2">Dynamic CSS Variables</h1>
-        <p className="text-gray-600 mb-8">Live CSS custom variables editor</p>
+        <div className="mb-8">
+          <h1 className="text-5xl font-bold text-gray-900 mb-2">Dynamic CSS Variables</h1>
+          <p className="text-lg text-gray-600">Live CSS custom variables editor — edit and preview changes in real-time</p>
+        </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
           {/* Editor Panel */}
-          <div className="bg-white rounded-lg shadow-lg p-6">
-            <h2 className="text-2xl font-semibold text-gray-900 mb-6">Variables</h2>
+          <div className="bg-white rounded-xl shadow-lg p-8 border border-gray-100">
+            <h2 className="text-2xl font-bold text-gray-900 mb-6">Variables</h2>
 
-            <div className="space-y-4 mb-6">
+            <div className="space-y-3 mb-6">
               {variables.map((variable) => (
-                <div key={variable.id} className="flex gap-2 items-center">
+                <div key={variable.id} className="flex gap-2 items-center bg-gray-50 p-3 rounded-lg border border-gray-200 hover:border-gray-300 transition">
                   <input
                     type="text"
                     value={variable.name}
                     onChange={(e) => updateVariable(variable.id, 'name', e.target.value)}
                     placeholder="--variable-name"
-                    className="flex-1 px-3 py-2 border border-gray-300 rounded-md text-sm font-mono bg-gray-50"
+                    className="flex-1 px-2 py-1 border border-gray-300 rounded-md text-sm font-mono bg-white focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                   />
                   {isColorValue(variable.value) ? (
                     <div className="flex items-center gap-2">
@@ -98,14 +101,15 @@ export default function App() {
                         type="color"
                         value={variable.value}
                         onChange={(e) => updateVariable(variable.id, 'value', e.target.value)}
-                        className="w-12 h-10 border border-gray-300 rounded-md cursor-pointer"
+                        className="w-10 h-9 border border-gray-300 rounded-md cursor-pointer"
+                        title="Pick a color"
                       />
                       <input
                         type="text"
                         value={variable.value}
                         onChange={(e) => updateVariable(variable.id, 'value', e.target.value)}
                         placeholder="value"
-                        className="flex-1 px-3 py-2 border border-gray-300 rounded-md text-sm font-mono bg-gray-50"
+                        className="flex-1 px-2 py-1 border border-gray-300 rounded-md text-sm font-mono bg-white focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                       />
                     </div>
                   ) : (
@@ -114,14 +118,15 @@ export default function App() {
                       value={variable.value}
                       onChange={(e) => updateVariable(variable.id, 'value', e.target.value)}
                       placeholder="value"
-                      className="flex-1 px-3 py-2 border border-gray-300 rounded-md text-sm font-mono bg-gray-50"
+                      className="flex-1 px-2 py-1 border border-gray-300 rounded-md text-sm font-mono bg-white focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                     />
                   )}
                   <button
                     onClick={() => removeVariable(variable.id)}
-                    className="px-3 py-2 bg-red-100 text-red-700 rounded-md hover:bg-red-200 transition text-sm font-medium"
+                    className="px-3 py-1 bg-red-50 text-red-700 rounded-md hover:bg-red-100 transition text-sm font-medium border border-red-200"
+                    title="Remove this variable"
                   >
-                    Remove
+                    ✕
                   </button>
                 </div>
               ))}
@@ -129,9 +134,9 @@ export default function App() {
 
             <button
               onClick={addVariable}
-              className="w-full px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition font-medium mb-6"
+              className="w-full px-4 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition font-medium mb-6 shadow-sm hover:shadow-md"
             >
-              Add Variable
+              + Add Variable
             </button>
 
             <div className="border-t border-gray-200 pt-6">
@@ -143,27 +148,28 @@ export default function App() {
                   const text = e.clipboardData.getData('text')
                   importCSS(text)
                 }}
-                className="w-full px-3 py-2 border border-gray-300 rounded-md text-xs font-mono bg-gray-50 h-24 mb-2"
+                className="w-full px-3 py-2 border border-gray-300 rounded-md text-xs font-mono bg-gray-50 h-24 mb-3 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
               />
-              <p className="text-xs text-gray-500">Paste CSS code containing --variable declarations</p>
+              <p className="text-xs text-gray-500">Paste CSS code containing --variable declarations (e.g., <code className="bg-gray-100 px-1 rounded">--color: #fff</code>)</p>
             </div>
 
             <div className="mt-8 pt-6 border-t border-gray-200">
-              <div className="flex items-center justify-between mb-2">
+              <div className="flex items-center justify-between mb-3">
                 <h3 className="font-semibold text-gray-900">CSS Output</h3>
                 <button
                   onClick={() => copyToClipboard(`:root {\n  ${cssVarString}\n}`)}
-                  className={`px-3 py-1 rounded text-sm font-medium transition ${
+                  className={`px-4 py-2 rounded-lg text-sm font-medium transition ${
                     copied
-                      ? 'bg-green-100 text-green-700'
-                      : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                      ? 'bg-green-100 text-green-700 shadow-sm'
+                      : 'bg-blue-100 text-blue-700 hover:bg-blue-200 shadow-sm hover:shadow-md'
                   }`}
+                  title="Copy to clipboard"
                 >
-                  {copied ? 'Copied!' : 'Copy'}
+                  {copied ? '✓ Copied!' : 'Copy'}
                 </button>
               </div>
-              <div className="bg-gray-50 p-4 rounded-md border border-gray-200 overflow-auto">
-                <code className="text-xs font-mono text-gray-700 whitespace-pre">
+              <div className="bg-gray-950 p-4 rounded-lg border border-gray-800 overflow-auto">
+                <code className="text-xs font-mono text-gray-100 whitespace-pre">
                   {`:root {\n  ${cssVarString}\n}`}
                 </code>
               </div>
@@ -171,16 +177,16 @@ export default function App() {
           </div>
 
           {/* Preview Panel */}
-          <div className="bg-white rounded-lg shadow-lg p-6">
-            <h2 className="text-2xl font-semibold text-gray-900 mb-6">Live Preview</h2>
+          <div className="bg-white rounded-xl shadow-lg p-8 border border-gray-100">
+            <h2 className="text-2xl font-bold text-gray-900 mb-6">Live Preview</h2>
 
             <div
-              className="p-8 bg-gray-100 rounded-lg min-h-96"
+              className="space-y-6"
               style={cssVariables as React.CSSProperties}
             >
               {/* Card Preview */}
               <div
-                className="bg-white p-6 rounded-lg shadow-md mb-6 border-l-4"
+                className="bg-white p-6 rounded-lg shadow-md border-l-4"
                 style={{
                   borderLeftColor: `var(--primary-color, #3b82f6)`,
                 } as React.CSSProperties}
@@ -195,30 +201,82 @@ export default function App() {
                   Preview Card
                 </h3>
                 <p className="text-gray-600 text-sm">
-                  This card uses the CSS variables you define. Update the values to see changes in real-time.
+                  This card uses the CSS variables you define. Update the values to see changes instantly.
                 </p>
               </div>
 
               {/* Button Preview */}
-              <div className="flex gap-4">
-                <button
+              <div className="space-y-3">
+                <div className="flex gap-3 flex-wrap">
+                  <button
+                    style={{
+                      backgroundColor: `var(--primary-color, #3b82f6)`,
+                      borderRadius: `var(--border-radius, 8px)`,
+                    } as React.CSSProperties}
+                    className="px-4 py-2 text-white font-medium hover:opacity-90 transition"
+                  >
+                    Primary
+                  </button>
+                  <button
+                    style={{
+                      backgroundColor: `var(--secondary-color, #10b981)`,
+                      borderRadius: `var(--border-radius, 8px)`,
+                    } as React.CSSProperties}
+                    className="px-4 py-2 text-white font-medium hover:opacity-90 transition"
+                  >
+                    Secondary
+                  </button>
+                  <button
+                    style={{
+                      borderColor: `var(--primary-color, #3b82f6)`,
+                      borderRadius: `var(--border-radius, 8px)`,
+                      color: `var(--primary-color, #3b82f6)`,
+                      borderWidth: '2px',
+                    } as React.CSSProperties}
+                    className="px-4 py-2 font-medium hover:opacity-75 transition"
+                  >
+                    Outlined
+                  </button>
+                </div>
+              </div>
+
+              {/* Badges */}
+              <div className="space-y-2">
+                <p className="text-xs text-gray-600 font-medium uppercase tracking-wide">Badges</p>
+                <div className="flex gap-2 flex-wrap">
+                  <span
+                    style={{
+                      backgroundColor: `var(--primary-color, #3b82f6)`,
+                      borderRadius: `var(--border-radius, 8px)`,
+                    } as React.CSSProperties}
+                    className="px-3 py-1 text-white text-xs font-medium"
+                  >
+                    Primary
+                  </span>
+                  <span
+                    style={{
+                      backgroundColor: `var(--secondary-color, #10b981)`,
+                      borderRadius: `var(--border-radius, 8px)`,
+                    } as React.CSSProperties}
+                    className="px-3 py-1 text-white text-xs font-medium"
+                  >
+                    Secondary
+                  </span>
+                </div>
+              </div>
+
+              {/* Typography Preview */}
+              <div className="space-y-2">
+                <p className="text-xs text-gray-600 font-medium uppercase tracking-wide">Typography</p>
+                <h4
                   style={{
-                    backgroundColor: `var(--primary-color, #3b82f6)`,
-                    borderRadius: `var(--border-radius, 8px)`,
+                    fontSize: `var(--font-size, 16px)`,
+                    color: `var(--primary-color, #3b82f6)`,
                   } as React.CSSProperties}
-                  className="px-4 py-2 text-white font-medium hover:opacity-90 transition"
+                  className="font-bold"
                 >
-                  Primary Button
-                </button>
-                <button
-                  style={{
-                    backgroundColor: `var(--secondary-color, #10b981)`,
-                    borderRadius: `var(--border-radius, 8px)`,
-                  } as React.CSSProperties}
-                  className="px-4 py-2 text-white font-medium hover:opacity-90 transition"
-                >
-                  Secondary Button
-                </button>
+                  Heading with Primary Color
+                </h4>
               </div>
             </div>
           </div>
