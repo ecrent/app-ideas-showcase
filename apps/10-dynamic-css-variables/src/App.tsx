@@ -18,6 +18,7 @@ export default function App() {
     { id: '4', name: '--font-size', value: '16px' },
   ])
   const [copied, setCopied] = useState(false)
+  const [importMessage, setImportMessage] = useState('')
 
   const copyToClipboard = async (text: string) => {
     await navigator.clipboard.writeText(text)
@@ -29,7 +30,11 @@ export default function App() {
     const varRegex = /--[\w-]+\s*:\s*[^;]+/g
     const matches = cssText.match(varRegex)
 
-    if (!matches) return
+    if (!matches) {
+      setImportMessage('No CSS variables found in pasted content')
+      setTimeout(() => setImportMessage(''), 3000)
+      return
+    }
 
     const maxId = Math.max(...variables.map(v => parseInt(v.id)), 0)
     const newVars = matches.map((match, idx) => {
@@ -42,6 +47,8 @@ export default function App() {
     })
 
     setVariables([...variables, ...newVars])
+    setImportMessage(`Imported ${newVars.length} variable${newVars.length !== 1 ? 's' : ''}`)
+    setTimeout(() => setImportMessage(''), 3000)
   }
 
   const updateVariable = (id: string, field: 'name' | 'value', newValue: string) => {
@@ -150,6 +157,15 @@ export default function App() {
                 }}
                 className="w-full px-3 py-2 border border-gray-300 rounded-md text-xs font-mono bg-gray-50 h-24 mb-3 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
               />
+              {importMessage && (
+                <div className={`text-xs mb-2 p-2 rounded-md ${
+                  importMessage.startsWith('No')
+                    ? 'bg-amber-50 text-amber-700 border border-amber-200'
+                    : 'bg-green-50 text-green-700 border border-green-200'
+                }`}>
+                  {importMessage}
+                </div>
+              )}
               <p className="text-xs text-gray-500">Paste CSS code containing --variable declarations (e.g., <code className="bg-gray-100 px-1 rounded">--color: #fff</code>)</p>
             </div>
 
