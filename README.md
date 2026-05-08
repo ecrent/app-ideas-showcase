@@ -2,7 +2,7 @@
 
 working my way through all the projects from [florinpop17/app-ideas](https://github.com/florinpop17/app-ideas). building each one with React, TypeScript, and Tailwind.
 
-10/82 done so far.
+11/82 done so far.
 
 ---
 
@@ -18,7 +18,7 @@ working my way through all the projects from [florinpop17/app-ideas](https://git
 - [CSV2JSON](https://ecrent.github.io/app-ideas-showcase/apps/08-csv2json/)
 - [Dollars to Cents](https://ecrent.github.io/app-ideas-showcase/apps/09-dollars-to-cents/)
 - [Dynamic CSS Variables](https://ecrent.github.io/app-ideas-showcase/apps/10-dynamic-css-variables/)
-- First DB App
+- [First DB App](https://ecrent.github.io/app-ideas-showcase/apps/11-first-db-app/)
 - Flip Image
 - GitHub Status
 - Hello
