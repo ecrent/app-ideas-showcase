@@ -50,7 +50,7 @@ export default function TableViewer({
         <h2 className="text-2xl font-bold text-gray-900">{table.name}</h2>
         <button
           onClick={handleDeleteTable}
-          className="px-3 py-1 text-sm bg-red-50 text-red-700 rounded hover:bg-red-100 font-medium"
+          className="px-3 py-1 text-sm bg-red-50 text-red-700 rounded hover:bg-red-100 font-medium transition-colors"
         >
           Delete Table
         </button>
@@ -68,7 +68,7 @@ export default function TableViewer({
         ) : (
           <button
             onClick={() => setShowAddForm(true)}
-            className="mb-6 px-4 py-2 bg-green-500 text-white rounded-lg hover:bg-green-600 font-medium text-sm"
+            className="mb-6 px-4 py-2 bg-green-500 text-white rounded-lg hover:bg-green-600 font-medium text-sm transition-colors"
           >
             + Add Row
           </button>
@@ -89,36 +89,36 @@ export default function TableViewer({
         {table.rows.length === 0 ? (
           <p className="text-center text-gray-500 py-8">No rows yet. Add one to get started!</p>
         ) : (
-          <div className="overflow-x-auto">
-            <table className="w-full">
+          <div className="overflow-x-auto -mx-6 px-6">
+            <table className="w-full text-sm">
               <thead>
                 <tr className="border-b border-gray-200">
-                  <th className="text-left px-4 py-3 text-sm font-semibold text-gray-700 bg-gray-50 w-12">#</th>
+                  <th className="text-left px-4 py-3 font-semibold text-gray-700 bg-gray-50 w-12">#</th>
                   {table.columns.map(col => (
                     <th
                       key={col}
-                      className="text-left px-4 py-3 text-sm font-semibold text-gray-700 bg-gray-50"
+                      className="text-left px-4 py-3 font-semibold text-gray-700 bg-gray-50 whitespace-nowrap"
                     >
                       {col}
                     </th>
                   ))}
-                  <th className="text-left px-4 py-3 text-sm font-semibold text-gray-700 bg-gray-50 w-24">Actions</th>
+                  <th className="text-left px-4 py-3 font-semibold text-gray-700 bg-gray-50 w-28">Actions</th>
                 </tr>
               </thead>
               <tbody>
                 {table.rows.map((row, index) => (
-                  <tr key={index} className="border-b border-gray-200 hover:bg-gray-50">
-                    <td className="px-4 py-3 text-sm text-gray-600 font-medium">{index + 1}</td>
+                  <tr key={index} className="border-b border-gray-200 hover:bg-gray-50 transition-colors">
+                    <td className="px-4 py-3 text-gray-600 font-medium">{index + 1}</td>
                     {table.columns.map(col => (
-                      <td key={col} className="px-4 py-3 text-sm text-gray-900 max-w-xs truncate">
-                        {row[col] || '—'}
+                      <td key={col} className="px-4 py-3 text-gray-900 break-words max-w-sm">
+                        {row[col] ? <span className="truncate inline-block" title={row[col]}>{row[col]}</span> : <span className="text-gray-400">—</span>}
                       </td>
                     ))}
-                    <td className="px-4 py-3 text-sm space-x-2 flex">
+                    <td className="px-4 py-3 space-x-2 flex whitespace-nowrap">
                       <button
                         onClick={() => setEditingRowIndex(index)}
                         disabled={editingRowIndex !== null}
-                        className="text-blue-600 hover:text-blue-700 font-medium disabled:text-gray-400 disabled:cursor-not-allowed"
+                        className="text-blue-600 hover:text-blue-700 font-medium disabled:text-gray-400 disabled:cursor-not-allowed transition-colors"
                       >
                         Edit
                       </button>
@@ -129,7 +129,7 @@ export default function TableViewer({
                           }
                         }}
                         disabled={editingRowIndex !== null}
-                        className="text-red-600 hover:text-red-700 font-medium disabled:text-gray-400 disabled:cursor-not-allowed"
+                        className="text-red-600 hover:text-red-700 font-medium disabled:text-gray-400 disabled:cursor-not-allowed transition-colors"
                       >
                         Delete
                       </button>

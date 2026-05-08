@@ -42,9 +42,10 @@ export default function Database() {
   }
 
   const deleteTable = (id: string) => {
-    setTables(tables.filter(t => t.id !== id))
+    const remaining = tables.filter(t => t.id !== id)
+    setTables(remaining)
     if (selectedTableId === id) {
-      setSelectedTableId(tables.length > 1 ? tables[0].id : null)
+      setSelectedTableId(remaining.length > 0 ? remaining[0].id : null)
     }
   }
 
@@ -86,9 +87,9 @@ export default function Database() {
   const selectedTable = tables.find(t => t.id === selectedTableId)
 
   return (
-    <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
-      <aside className="md:col-span-1">
-        <div className="bg-white rounded-lg shadow-sm p-4">
+    <div className="grid grid-cols-1 lg:grid-cols-5 gap-6">
+      <aside className="lg:col-span-1">
+        <div className="bg-white rounded-lg shadow-sm p-4 sticky top-6">
           <h2 className="text-lg font-semibold text-gray-900 mb-4">Tables</h2>
           {tables.length === 0 ? (
             <p className="text-sm text-gray-500">No tables yet. Create one to get started!</p>
@@ -104,7 +105,8 @@ export default function Database() {
                       : 'text-gray-700 hover:bg-gray-100'
                   }`}
                 >
-                  {table.name}
+                  <span className="truncate block">{table.name}</span>
+                  <span className="text-xs text-gray-500">({table.rows.length} rows)</span>
                 </button>
               ))}
             </div>
@@ -112,7 +114,7 @@ export default function Database() {
         </div>
       </aside>
 
-      <main className="md:col-span-3">
+      <main className="lg:col-span-4">
         {selectedTable ? (
           <TableViewer
             table={selectedTable}

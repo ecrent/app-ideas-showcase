@@ -62,7 +62,7 @@ export default function TableCreator({ onCreateTable }: Props) {
           <button
             type="button"
             onClick={addColumn}
-            className="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 font-medium"
+            className="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 font-medium transition-colors"
           >
             Add
           </button>
@@ -92,10 +92,12 @@ export default function TableCreator({ onCreateTable }: Props) {
       <button
         type="submit"
         disabled={!tableName.trim() || columns.length === 0}
-        className="w-full px-4 py-2 bg-green-500 text-white rounded-lg hover:bg-green-600 disabled:bg-gray-300 disabled:cursor-not-allowed font-medium"
+        className="w-full px-4 py-2 bg-green-500 text-white rounded-lg hover:bg-green-600 disabled:bg-gray-300 disabled:cursor-not-allowed font-medium transition-colors"
       >
         Create Table
       </button>
+      {!tableName.trim() && <p className="text-xs text-gray-500 mt-2">Enter a table name</p>}
+      {tableName.trim() && columns.length === 0 && <p className="text-xs text-gray-500 mt-2">Add at least one column</p>}
     </form>
   )
 }
