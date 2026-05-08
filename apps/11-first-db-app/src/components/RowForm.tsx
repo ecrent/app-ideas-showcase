@@ -43,9 +43,16 @@ export default function RowForm({
 
   return (
     <form onSubmit={handleSubmit}>
-      <h3 className="text-lg font-semibold text-gray-900 mb-4">
-        {isEditing ? 'Edit Row' : 'Add New Row'}
-      </h3>
+      <div className="flex items-center gap-2 mb-4">
+        <div className="w-5 h-5 bg-blue-100 rounded flex items-center justify-center">
+          <svg className="w-3 h-3 text-blue-600" fill="currentColor" viewBox="0 0 20 20">
+            <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-11a1 1 0 11-2 0 1 1 0 012 0zm0 3a1 1 0 11-2 0 1 1 0 012 0zm0 3a1 1 0 11-2 0 1 1 0 012 0z" clipRule="evenodd" />
+          </svg>
+        </div>
+        <h3 className="text-lg font-semibold text-gray-900">
+          {isEditing ? 'Edit Row' : 'Add New Row'}
+        </h3>
+      </div>
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-4">
         {columns.map(col => (
           <div key={col}>

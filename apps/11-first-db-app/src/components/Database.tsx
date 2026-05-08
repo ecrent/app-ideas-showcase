@@ -124,7 +124,7 @@ export default function Database() {
             onDeleteTable={deleteTable}
           />
         ) : (
-          <div className="bg-white rounded-lg shadow-sm p-8 text-center">
+          <div className="bg-white rounded-lg shadow-sm p-8 md:p-12">
             <TableCreator onCreateTable={createTable} />
           </div>
         )}

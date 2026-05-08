@@ -31,7 +31,14 @@ export default function TableCreator({ onCreateTable }: Props) {
 
   return (
     <form onSubmit={handleSubmit} className="max-w-md mx-auto">
-      <h2 className="text-2xl font-bold text-gray-900 mb-6">Create New Table</h2>
+      <div className="flex items-center gap-3 mb-6">
+        <div className="w-8 h-8 bg-blue-100 rounded-lg flex items-center justify-center">
+          <svg className="w-5 h-5 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6v6m0 0v6m0-6h6m0 0h6" />
+          </svg>
+        </div>
+        <h2 className="text-2xl font-bold text-gray-900">Create New Table</h2>
+      </div>
 
       <div className="mb-6">
         <label className="block text-sm font-medium text-gray-700 mb-2">
