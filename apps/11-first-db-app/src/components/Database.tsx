@@ -90,7 +90,14 @@ export default function Database() {
     <div className="grid grid-cols-1 lg:grid-cols-5 gap-6">
       <aside className="lg:col-span-1">
         <div className="bg-white rounded-lg shadow-sm p-4 sticky top-6">
-          <h2 className="text-lg font-semibold text-gray-900 mb-4">Tables</h2>
+          <div className="flex items-center gap-2 mb-4">
+            <div className="w-5 h-5 bg-blue-100 rounded flex items-center justify-center">
+              <svg className="w-3 h-3 text-blue-600" fill="currentColor" viewBox="0 0 20 20">
+                <path d="M3 4a1 1 0 011-1h12a1 1 0 011 1v2a1 1 0 01-1 1H4a1 1 0 01-1-1V4zM3 10a1 1 0 011-1h6a1 1 0 011 1v6a1 1 0 01-1 1H4a1 1 0 01-1-1v-6zM14 9a1 1 0 00-1 1v6a1 1 0 001 1h2a1 1 0 001-1v-6a1 1 0 00-1-1h-2z" />
+              </svg>
+            </div>
+            <h2 className="text-lg font-semibold text-gray-900">Tables</h2>
+          </div>
           {tables.length === 0 ? (
             <p className="text-sm text-gray-500">No tables yet. Create one to get started!</p>
           ) : (
