@@ -127,35 +127,35 @@ export default function App() {
                 </div>
               </div>
 
-              <div className="flex flex-wrap gap-4 justify-center mb-8">
+              <div className="flex flex-wrap gap-2 sm:gap-4 justify-center mb-8">
                 <button
                   onClick={() => flipImage('horizontal')}
-                  className={`px-6 py-3 rounded-lg font-semibold transition-all ${
+                  className={`px-4 sm:px-6 py-2 sm:py-3 rounded-lg font-semibold transition-all text-sm sm:text-base ${
                     flipped.horizontal
                       ? 'bg-indigo-600 text-white shadow-lg ring-2 ring-indigo-400'
                       : 'bg-indigo-100 text-indigo-900 hover:bg-indigo-200 hover:shadow-md'
                   }`}
                 >
-                  <div className="flex items-center gap-2">
-                    <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <div className="flex items-center gap-1 sm:gap-2">
+                    <svg className="w-4 sm:w-5 h-4 sm:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 16V4m0 0L3 8m0 0l4 4m10-4v12m0 0l4-4m0 0l-4-4" />
                     </svg>
-                    Horizontal
+                    <span className="hidden sm:inline">Horizontal</span>
                   </div>
                 </button>
                 <button
                   onClick={() => flipImage('vertical')}
-                  className={`px-6 py-3 rounded-lg font-semibold transition-all ${
+                  className={`px-4 sm:px-6 py-2 sm:py-3 rounded-lg font-semibold transition-all text-sm sm:text-base ${
                     flipped.vertical
                       ? 'bg-indigo-600 text-white shadow-lg ring-2 ring-indigo-400'
                       : 'bg-indigo-100 text-indigo-900 hover:bg-indigo-200 hover:shadow-md'
                   }`}
                 >
-                  <div className="flex items-center gap-2">
-                    <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <div className="flex items-center gap-1 sm:gap-2">
+                    <svg className="w-4 sm:w-5 h-4 sm:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 7h16m0 0l-4-4m0 0l-4 4m0 10H4m0 0l4 4m0 0l4-4" />
                     </svg>
-                    Vertical
+                    <span className="hidden sm:inline">Vertical</span>
                   </div>
                 </button>
                 <button
@@ -163,13 +163,13 @@ export default function App() {
                     setImage(null)
                     setFlipped({ horizontal: false, vertical: false })
                   }}
-                  className="px-6 py-3 rounded-lg font-semibold bg-gray-100 text-gray-700 hover:bg-gray-200 transition-all hover:shadow-md"
+                  className="px-4 sm:px-6 py-2 sm:py-3 rounded-lg font-semibold bg-gray-100 text-gray-700 hover:bg-gray-200 transition-all hover:shadow-md text-sm sm:text-base"
                 >
-                  <div className="flex items-center gap-2">
-                    <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <div className="flex items-center gap-1 sm:gap-2">
+                    <svg className="w-4 sm:w-5 h-4 sm:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
                     </svg>
-                    Clear
+                    <span className="hidden sm:inline">Clear</span>
                   </div>
                 </button>
               </div>
@@ -177,13 +177,13 @@ export default function App() {
               <div className="flex justify-center">
                 <button
                   onClick={downloadImage}
-                  className="px-8 py-3 rounded-lg font-semibold bg-gradient-to-r from-green-500 to-green-600 text-white hover:shadow-lg transition-all hover:scale-105"
+                  className="px-6 sm:px-8 py-2 sm:py-3 rounded-lg font-semibold bg-gradient-to-r from-green-500 to-green-600 text-white hover:shadow-lg transition-all hover:scale-105 text-sm sm:text-base"
                 >
-                  <div className="flex items-center gap-2">
-                    <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <div className="flex items-center gap-1 sm:gap-2">
+                    <svg className="w-4 sm:w-5 h-4 sm:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
                     </svg>
-                    Download Image
+                    <span className="hidden sm:inline">Download</span>
                   </div>
                 </button>
               </div>
