@@ -72,23 +72,23 @@ export default function App() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 p-6">
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 p-4 sm:p-6">
       <div className="max-w-4xl mx-auto">
         <div className="text-center mb-8">
-          <h1 className="text-4xl font-bold text-gray-900 mb-2">Flip Image</h1>
-          <p className="text-gray-600">Upload an image and flip it horizontally or vertically</p>
+          <h1 className="text-3xl sm:text-4xl font-bold text-gray-900 mb-2">Flip Image</h1>
+          <p className="text-gray-600 text-sm sm:text-base">Upload an image and flip it horizontally or vertically</p>
         </div>
 
-        <div className="bg-white rounded-lg shadow-lg p-8">
+        <div className="bg-white rounded-2xl shadow-xl p-6 sm:p-8">
           <div className="mb-8">
-            <label className="block mb-4">
-              <div className="flex items-center justify-center w-full px-6 py-10 border-2 border-dashed border-indigo-300 rounded-lg cursor-pointer hover:border-indigo-500 transition-colors">
+            <label className="block">
+              <div className="flex items-center justify-center w-full px-6 py-12 border-2 border-dashed border-indigo-300 rounded-2xl cursor-pointer hover:border-indigo-500 hover:bg-indigo-50 transition-all">
                 <div className="text-center">
-                  <svg className="w-12 h-12 text-indigo-500 mx-auto mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
+                  <svg className="w-14 h-14 text-indigo-500 mx-auto mb-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M12 4v16m8-8H4" />
                   </svg>
-                  <p className="text-gray-700 font-semibold">Upload Image</p>
-                  <p className="text-gray-500 text-sm mt-1">PNG, JPG, GIF</p>
+                  <p className="text-gray-800 font-semibold text-lg">Upload Image</p>
+                  <p className="text-gray-500 text-sm mt-2">PNG, JPG, GIF or any image format</p>
                 </div>
                 <input
                   type="file"
@@ -102,10 +102,10 @@ export default function App() {
 
           {image && (
             <>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
                 <div>
-                  <h2 className="text-lg font-semibold text-gray-900 mb-4">Original</h2>
-                  <div className="bg-gray-100 rounded-lg overflow-hidden flex items-center justify-center" style={{ height: '400px' }}>
+                  <h2 className="text-base font-semibold text-gray-900 mb-3">Original</h2>
+                  <div className="bg-gradient-to-br from-gray-50 to-gray-100 rounded-xl overflow-hidden flex items-center justify-center border border-gray-200 shadow-sm" style={{ height: '350px' }}>
                     <img
                       ref={imageRef}
                       src={image}
@@ -117,8 +117,8 @@ export default function App() {
                 </div>
 
                 <div>
-                  <h2 className="text-lg font-semibold text-gray-900 mb-4">Flipped</h2>
-                  <div className="bg-gray-100 rounded-lg overflow-hidden flex items-center justify-center" style={{ height: '400px' }}>
+                  <h2 className="text-base font-semibold text-gray-900 mb-3">Flipped</h2>
+                  <div className="bg-gradient-to-br from-gray-50 to-gray-100 rounded-xl overflow-hidden flex items-center justify-center border border-gray-200 shadow-sm" style={{ height: '350px' }}>
                     <canvas
                       ref={canvasRef}
                       className="max-w-full max-h-full object-contain"
