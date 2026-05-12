@@ -20,7 +20,7 @@ working my way through all the projects from [florinpop17/app-ideas](https://git
 - [Dynamic CSS Variables](https://ecrent.github.io/app-ideas-showcase/apps/10-dynamic-css-variables/)
 - [First DB App](https://ecrent.github.io/app-ideas-showcase/apps/11-first-db-app/)
 - [Flip Image](https://ecrent.github.io/app-ideas-showcase/apps/12-flip-image/)
-- GitHub Status
+- GitHub Status *(in progress)*
 - Hello
 - IOT Mailbox Simulator
 - JS Input Validation

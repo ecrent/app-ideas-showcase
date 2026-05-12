@@ -1,9 +1,9 @@
 {
   "meta": {
     "start_date": "2026-04-09",
-    "current_app_index": 9,
+    "current_app_index": 12,
     "total_apps": 82,
-    "completed_apps": 9
+    "completed_apps": 12
   },
   "apps": [
     {
@@ -120,10 +120,10 @@
       "name": "Dynamic CSS Variables",
       "tier": 1,
       "days": 2,
-      "status": "in-progress",
+      "status": "completed",
       "start_date": "2026-05-05",
       "end_date": "2026-05-06",
-      "commits": 3,
+      "commits": 5,
       "description": "Live CSS custom variables editor"
     },
     {
@@ -132,10 +132,10 @@
       "name": "First DB App",
       "tier": 1,
       "days": 2,
-      "status": "upcoming",
-      "start_date": null,
-      "end_date": null,
-      "commits": 0,
+      "status": "completed",
+      "start_date": "2026-05-07",
+      "end_date": "2026-05-08",
+      "commits": 3,
       "description": "Simple browser-based database app"
     },
     {
@@ -144,10 +144,10 @@
       "name": "Flip Image",
       "tier": 1,
       "days": 2,
-      "status": "upcoming",
-      "start_date": null,
-      "end_date": null,
-      "commits": 0,
+      "status": "completed",
+      "start_date": "2026-05-09",
+      "end_date": "2026-05-10",
+      "commits": 3,
       "description": "Image flip (horizontal/vertical) tool"
     },
     {
@@ -156,10 +156,10 @@
       "name": "GitHub Status",
       "tier": 1,
       "days": 2,
-      "status": "upcoming",
-      "start_date": null,
-      "end_date": null,
-      "commits": 0,
+      "status": "in-progress",
+      "start_date": "2026-05-11",
+      "end_date": "2026-05-12",
+      "commits": 1,
       "description": "GitHub system status dashboard"
     },
     {
