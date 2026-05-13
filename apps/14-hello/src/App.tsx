@@ -24,46 +24,46 @@ export default function App() {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 flex items-center justify-center p-4">
-      <div className="max-w-2xl w-full">
+      <div className="max-w-3xl w-full">
         <div className="text-center mb-12">
-          <h1 className="text-5xl font-bold text-gray-900 mb-2">Hello</h1>
-          <p className="text-lg text-gray-600">Hello world in multiple languages</p>
+          <h1 className="text-6xl font-bold text-gray-900 mb-2">Hello</h1>
+          <p className="text-xl text-gray-600">Hello world in multiple languages</p>
         </div>
 
-        <div className="bg-white rounded-lg shadow-lg p-12 text-center mb-8">
-          <div className="text-6xl mb-4">{current.flag}</div>
-          <h2 className="text-3xl font-semibold text-gray-900 mb-2">{current.greeting}</h2>
-          <p className="text-lg text-gray-600 mb-8">{current.language}</p>
+        <div className="bg-white rounded-2xl shadow-2xl p-12 text-center mb-10 min-h-64 flex flex-col justify-center">
+          <div className="text-8xl mb-6 animate-bounce">{current.flag}</div>
+          <h2 className="text-5xl font-bold text-gray-900 mb-3 transition-all">{current.greeting}</h2>
+          <p className="text-xl text-gray-600 mb-10 tracking-wider">{current.language}</p>
 
-          <div className="flex gap-3 justify-center">
+          <div className="flex flex-wrap gap-4 justify-center">
             <button
               onClick={() => setSelectedIndex((i) => (i - 1 + GREETINGS.length) % GREETINGS.length)}
-              className="px-6 py-2 bg-indigo-600 text-white rounded-lg font-medium hover:bg-indigo-700 transition"
+              className="px-8 py-3 bg-indigo-600 text-white rounded-lg font-semibold hover:bg-indigo-700 active:scale-95 transition transform"
             >
               ← Previous
             </button>
             <button
               onClick={() => setSelectedIndex((i) => (i + 1) % GREETINGS.length)}
-              className="px-6 py-2 bg-indigo-600 text-white rounded-lg font-medium hover:bg-indigo-700 transition"
+              className="px-8 py-3 bg-indigo-600 text-white rounded-lg font-semibold hover:bg-indigo-700 active:scale-95 transition transform"
             >
               Next →
             </button>
           </div>
         </div>
 
-        <div className="grid grid-cols-3 gap-3">
+        <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 gap-3">
           {GREETINGS.map((item, index) => (
             <button
               key={index}
               onClick={() => setSelectedIndex(index)}
-              className={`p-3 rounded-lg font-medium transition ${
+              className={`p-4 rounded-xl font-semibold transition transform active:scale-95 ${
                 index === selectedIndex
-                  ? 'bg-indigo-600 text-white shadow-md'
-                  : 'bg-white text-gray-700 hover:bg-gray-100 shadow'
+                  ? 'bg-indigo-600 text-white shadow-lg scale-105'
+                  : 'bg-white text-gray-700 hover:bg-gray-50 shadow hover:shadow-lg'
               }`}
             >
-              <div className="text-2xl mb-1">{item.flag}</div>
-              <div className="text-xs md:text-sm">{item.language}</div>
+              <div className="text-3xl mb-2">{item.flag}</div>
+              <div className="text-xs sm:text-sm break-words">{item.language}</div>
             </button>
           ))}
         </div>
