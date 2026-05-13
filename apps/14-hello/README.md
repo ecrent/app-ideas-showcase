@@ -31,7 +31,7 @@ _Add screenshots here_
 ## Status
 
 - [x] Scaffolded
-- [ ] Core logic
-- [ ] Styling
+- [x] Core logic
+- [x] Styling
 - [ ] Tests / polish
 - [ ] Deployed
