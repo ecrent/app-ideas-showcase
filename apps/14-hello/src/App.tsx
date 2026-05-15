@@ -27,24 +27,24 @@ export default function App() {
       <div className="max-w-3xl w-full">
         <div className="text-center mb-8 sm:mb-12">
           <h1 className="text-5xl sm:text-6xl font-bold text-gray-900 mb-2">Hello</h1>
-          <p className="text-lg sm:text-xl text-gray-600">Hello world in multiple languages</p>
+          <p className="text-lg sm:text-xl text-gray-600">Greetings in 15 languages</p>
         </div>
 
-        <div className="bg-white rounded-2xl shadow-2xl p-8 sm:p-12 text-center mb-8 sm:mb-10 min-h-72 sm:min-h-80 flex flex-col justify-center">
-          <div className="text-7xl sm:text-8xl mb-4 sm:mb-6 animate-bounce">{current.flag}</div>
-          <h2 className="text-4xl sm:text-5xl font-bold text-gray-900 mb-2 sm:mb-3 transition-all duration-300">{current.greeting}</h2>
-          <p className="text-lg sm:text-xl text-gray-600 mb-8 sm:mb-10 tracking-wider">{current.language}</p>
+        <div className="bg-white rounded-3xl shadow-2xl p-8 sm:p-12 text-center mb-8 sm:mb-10 min-h-72 sm:min-h-80 flex flex-col justify-center">
+          <div className="text-7xl sm:text-8xl mb-4 sm:mb-6 animate-bounce duration-700">{current.flag}</div>
+          <h2 className="text-4xl sm:text-5xl font-bold text-indigo-600 mb-2 sm:mb-4 transition-all duration-300">{current.greeting}</h2>
+          <p className="text-lg sm:text-xl text-gray-500 mb-8 sm:mb-12 tracking-wider font-medium">{current.language}</p>
 
           <div className="flex flex-wrap gap-3 sm:gap-4 justify-center">
             <button
               onClick={() => setSelectedIndex((i) => (i - 1 + GREETINGS.length) % GREETINGS.length)}
-              className="px-6 sm:px-8 py-2 sm:py-3 bg-indigo-600 text-white rounded-lg font-semibold hover:bg-indigo-700 active:scale-95 transition-all transform duration-200"
+              className="px-6 sm:px-8 py-2 sm:py-3 bg-indigo-600 text-white rounded-lg font-semibold hover:bg-indigo-700 hover:shadow-lg active:scale-95 transition-all transform duration-200"
             >
               ← Previous
             </button>
             <button
               onClick={() => setSelectedIndex((i) => (i + 1) % GREETINGS.length)}
-              className="px-6 sm:px-8 py-2 sm:py-3 bg-indigo-600 text-white rounded-lg font-semibold hover:bg-indigo-700 active:scale-95 transition-all transform duration-200"
+              className="px-6 sm:px-8 py-2 sm:py-3 bg-indigo-600 text-white rounded-lg font-semibold hover:bg-indigo-700 hover:shadow-lg active:scale-95 transition-all transform duration-200"
             >
               Next →
             </button>
@@ -56,10 +56,10 @@ export default function App() {
             <button
               key={index}
               onClick={() => setSelectedIndex(index)}
-              className={`p-3 sm:p-4 rounded-xl font-semibold transition-all duration-200 transform active:scale-95 ${
+              className={`p-3 sm:p-4 rounded-xl font-semibold transition-all duration-200 transform active:scale-95 cursor-pointer ${
                 index === selectedIndex
                   ? 'bg-indigo-600 text-white shadow-lg scale-105 hover:bg-indigo-700'
-                  : 'bg-white text-gray-700 hover:bg-gray-50 shadow hover:shadow-lg hover:scale-102'
+                  : 'bg-white text-gray-700 hover:bg-gray-50 shadow hover:shadow-lg hover:scale-105'
               }`}
             >
               <div className="text-2xl sm:text-3xl mb-1 sm:mb-2">{item.flag}</div>
