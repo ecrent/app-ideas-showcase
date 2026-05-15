@@ -40,13 +40,13 @@ export default function App() {
           <div className="flex flex-wrap gap-3 sm:gap-4 justify-center">
             <button
               onClick={() => setSelectedIndex((i) => (i - 1 + GREETINGS.length) % GREETINGS.length)}
-              className="px-6 sm:px-8 py-2.5 sm:py-3 bg-indigo-600 text-white rounded-lg font-semibold hover:bg-indigo-700 hover:shadow-lg active:scale-95 transition-all transform duration-200"
+              className="px-6 sm:px-8 py-2.5 sm:py-3 bg-indigo-600 text-white rounded-lg font-semibold hover:bg-indigo-700 hover:shadow-lg active:scale-95 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-400 transition-all transform duration-200"
             >
               ← Previous
             </button>
             <button
               onClick={() => setSelectedIndex((i) => (i + 1) % GREETINGS.length)}
-              className="px-6 sm:px-8 py-2.5 sm:py-3 bg-indigo-600 text-white rounded-lg font-semibold hover:bg-indigo-700 hover:shadow-lg active:scale-95 transition-all transform duration-200"
+              className="px-6 sm:px-8 py-2.5 sm:py-3 bg-indigo-600 text-white rounded-lg font-semibold hover:bg-indigo-700 hover:shadow-lg active:scale-95 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-400 transition-all transform duration-200"
             >
               Next →
             </button>
@@ -58,7 +58,7 @@ export default function App() {
             <button
               key={index}
               onClick={() => setSelectedIndex(index)}
-              className={`p-3 sm:p-4 rounded-xl font-semibold transition-all duration-200 transform active:scale-95 cursor-pointer ${
+              className={`p-3 sm:p-4 rounded-xl font-semibold transition-all duration-200 transform active:scale-95 cursor-pointer focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-400 ${
                 index === selectedIndex
                   ? 'bg-indigo-600 text-white shadow-lg scale-105 hover:bg-indigo-700'
                   : 'bg-white text-gray-700 hover:bg-gray-50 shadow hover:shadow-lg hover:scale-105'
