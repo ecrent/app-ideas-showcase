@@ -35,9 +35,12 @@ npm run dev
 
 [GitHub Pages](https://ecrent.github.io/app-ideas-showcase/apps/14-hello/)
 
-## Screenshots
+## How to Use
 
-_See the live demo for visual reference_
+1. Click the **Previous** and **Next** buttons to navigate through languages
+2. Click any language tile in the grid to jump directly to that language
+3. Each greeting includes a country flag emoji for cultural context
+4. Fully responsive — works seamlessly on mobile, tablet, and desktop
 
 ## Status
 
