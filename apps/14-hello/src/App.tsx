@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 
 const GREETINGS = [
   { language: 'English', greeting: 'Hello', flag: '🇬🇧' },
@@ -21,6 +21,19 @@ const GREETINGS = [
 export default function App() {
   const [selectedIndex, setSelectedIndex] = useState(0)
   const current = GREETINGS[selectedIndex]
+
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'ArrowLeft') {
+        setSelectedIndex((i) => (i - 1 + GREETINGS.length) % GREETINGS.length)
+      } else if (e.key === 'ArrowRight') {
+        setSelectedIndex((i) => (i + 1) % GREETINGS.length)
+      }
+    }
+
+    window.addEventListener('keydown', handleKeyDown)
+    return () => window.removeEventListener('keydown', handleKeyDown)
+  }, [])
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 via-purple-50 to-indigo-100 flex items-center justify-center p-4">
@@ -70,10 +83,10 @@ export default function App() {
           ))}
         </div>
 
-        <div className="text-center text-sm sm:text-base text-gray-500 mt-2">
-          <p className="flex items-center justify-center gap-2">
+        <div className="text-center text-sm sm:text-base text-gray-500 mt-4 sm:mt-6">
+          <p className="flex items-center justify-center gap-2 flex-wrap">
             <span className="text-indigo-300">✨</span>
-            <span>Click any language to jump directly • Use Previous/Next to navigate</span>
+            <span>Click tiles • Use arrows or Previous/Next</span>
             <span className="text-indigo-300">✨</span>
           </p>
         </div>
