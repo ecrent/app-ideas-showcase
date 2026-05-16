@@ -43,23 +43,23 @@ export default function App() {
           <p className="text-xl sm:text-2xl text-indigo-600 font-semibold">Greetings in 15 languages</p>
         </div>
 
-        <div className="bg-white rounded-3xl shadow-2xl border border-indigo-100/50 p-8 sm:p-14 text-center mb-10 sm:mb-12 min-h-72 sm:min-h-80 flex flex-col justify-center items-center">
+        <div className="bg-white rounded-3xl shadow-2xl border border-indigo-100/50 p-8 sm:p-14 text-center mb-10 sm:mb-12 min-h-72 sm:min-h-80 flex flex-col justify-center items-center transition-all duration-300">
           <div className="text-8xl sm:text-9xl mb-6 sm:mb-8 animate-float origin-center">{current.flag}</div>
           <div className="space-y-3 w-full">
-            <h2 className="text-5xl sm:text-6xl font-bold text-indigo-600 mb-3 sm:mb-4 animate-fadeIn">{current.greeting}</h2>
-            <p className="text-xl sm:text-2xl text-gray-700 mb-10 sm:mb-12 tracking-wide font-semibold animate-fadeIn">{current.language}</p>
+            <h2 key={`greeting-${selectedIndex}`} className="text-5xl sm:text-6xl font-bold text-indigo-600 mb-3 sm:mb-4 animate-fadeIn">{current.greeting}</h2>
+            <p key={`language-${selectedIndex}`} className="text-xl sm:text-2xl text-gray-700 mb-10 sm:mb-12 tracking-wide font-semibold animate-fadeIn">{current.language}</p>
           </div>
 
           <div className="flex flex-wrap gap-4 sm:gap-5 justify-center">
             <button
               onClick={() => setSelectedIndex((i) => (i - 1 + GREETINGS.length) % GREETINGS.length)}
-              className="px-7 sm:px-9 py-3 sm:py-3.5 bg-indigo-600 text-white rounded-xl font-semibold hover:bg-indigo-700 hover:shadow-xl active:scale-95 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-400 transition-all transform duration-200"
+              className="px-7 sm:px-9 py-3 sm:py-3.5 bg-indigo-600 text-white rounded-xl font-semibold hover:bg-indigo-700 hover:shadow-2xl active:scale-95 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-400 transition-all transform duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
             >
               ← Previous
             </button>
             <button
               onClick={() => setSelectedIndex((i) => (i + 1) % GREETINGS.length)}
-              className="px-7 sm:px-9 py-3 sm:py-3.5 bg-indigo-600 text-white rounded-xl font-semibold hover:bg-indigo-700 hover:shadow-xl active:scale-95 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-400 transition-all transform duration-200"
+              className="px-7 sm:px-9 py-3 sm:py-3.5 bg-indigo-600 text-white rounded-xl font-semibold hover:bg-indigo-700 hover:shadow-2xl active:scale-95 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-400 transition-all transform duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
             >
               Next →
             </button>
@@ -86,11 +86,11 @@ export default function App() {
         </div>
         <div className="h-2 sm:h-3"></div>
 
-        <div className="text-center text-sm sm:text-base text-gray-500 mt-4 sm:mt-6">
-          <p className="flex items-center justify-center gap-2 flex-wrap">
-            <span className="text-indigo-300">✨</span>
-            <span>Click tiles • Use arrows or Previous/Next</span>
-            <span className="text-indigo-300">✨</span>
+        <div className="text-center text-xs sm:text-sm text-gray-500 mt-6 sm:mt-8">
+          <p className="flex items-center justify-center gap-2 sm:gap-3 flex-wrap">
+            <span className="text-indigo-400 text-lg">✨</span>
+            <span className="text-gray-600">Click tiles • Use ← → or Previous/Next</span>
+            <span className="text-indigo-400 text-lg">✨</span>
           </p>
         </div>
       </div>
