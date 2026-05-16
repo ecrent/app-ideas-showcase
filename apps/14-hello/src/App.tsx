@@ -70,8 +70,12 @@ export default function App() {
           ))}
         </div>
 
-        <div className="text-center text-sm sm:text-base text-gray-600">
-          <p>Click any language to jump directly • Use Previous/Next to navigate</p>
+        <div className="text-center text-sm sm:text-base text-gray-500 mt-2">
+          <p className="flex items-center justify-center gap-2">
+            <span className="text-indigo-300">✨</span>
+            <span>Click any language to jump directly • Use Previous/Next to navigate</span>
+            <span className="text-indigo-300">✨</span>
+          </p>
         </div>
       </div>
     </div>
