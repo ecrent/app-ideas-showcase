@@ -37,15 +37,19 @@ npm run dev
 
 ## How to Use
 
-1. Click the **Previous** and **Next** buttons to navigate through languages
-2. Click any language tile in the grid to jump directly to that language
-3. Each greeting includes a country flag emoji for cultural context
-4. Fully responsive — works seamlessly on mobile, tablet, and desktop
+1. **Navigate with buttons** — Click **Previous** and **Next** to browse through languages
+2. **Quick select** — Click any language tile in the grid to jump directly to that greeting
+3. **Keyboard shortcuts** — Use left/right arrow keys for quick navigation
+4. **Visual cues** — Country flag emojis provide instant cultural context
+5. **Responsive design** — Works seamlessly on mobile, tablet, and desktop
 
-## Status
+## Features Implemented
 
-- [x] Scaffolded
-- [x] Core logic
-- [x] Styling
-- [x] Polish & refinement
-- [x] Complete
+- [x] 15 languages with authentic greetings
+- [x] Smooth navigation with Previous/Next buttons
+- [x] Quick-select grid for instant language jumping
+- [x] Keyboard navigation with arrow keys
+- [x] Responsive design for all screen sizes
+- [x] Smooth animations and transitions
+- [x] Accessible focus states and keyboard support
+- [x] Beautiful gradient background and modern UI
