@@ -2,7 +2,7 @@
 
 working my way through all the projects from [florinpop17/app-ideas](https://github.com/florinpop17/app-ideas). building each one with React, TypeScript, and Tailwind.
 
-13/82 done so far.
+14/82 done so far.
 
 ---
 
@@ -21,7 +21,7 @@ working my way through all the projects from [florinpop17/app-ideas](https://git
 - [First DB App](https://ecrent.github.io/app-ideas-showcase/apps/11-first-db-app/)
 - [Flip Image](https://ecrent.github.io/app-ideas-showcase/apps/12-flip-image/)
 - [GitHub Status](https://ecrent.github.io/app-ideas-showcase/apps/13-github-status/)
-- Hello *(in progress)*
+- [Hello](https://ecrent.github.io/app-ideas-showcase/apps/14-hello/)
 - IOT Mailbox Simulator
 - JS Input Validation
 - JSON2CSV

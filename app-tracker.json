@@ -3,7 +3,7 @@
     "start_date": "2026-04-09",
     "current_app_index": 13,
     "total_apps": 82,
-    "completed_apps": 13
+    "completed_apps": 14
   },
   "apps": [
     {
@@ -168,10 +168,10 @@
       "name": "Hello",
       "tier": 1,
       "days": 2,
-      "status": "in-progress",
+      "status": "completed",
       "start_date": "2026-05-13",
-      "end_date": "2026-05-14",
-      "commits": 11,
+      "end_date": "2026-05-16",
+      "commits": 17,
       "description": "Hello world in multiple languages"
     },
     {
