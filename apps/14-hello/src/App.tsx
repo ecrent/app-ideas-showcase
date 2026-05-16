@@ -31,10 +31,10 @@ export default function App() {
         </div>
 
         <div className="bg-white rounded-3xl shadow-2xl p-8 sm:p-14 text-center mb-10 sm:mb-12 min-h-72 sm:min-h-80 flex flex-col justify-center items-center">
-          <div key={selectedIndex} className="text-8xl sm:text-9xl mb-6 sm:mb-8 animate-bounce [animation-duration:1s] origin-center">{current.flag}</div>
+          <div className="text-8xl sm:text-9xl mb-6 sm:mb-8 animate-float origin-center">{current.flag}</div>
           <div className="space-y-3 w-full">
-            <h2 key={`greeting-${selectedIndex}`} className="text-5xl sm:text-6xl font-bold text-indigo-600 mb-3 sm:mb-4 transition-all duration-300">{current.greeting}</h2>
-            <p key={`language-${selectedIndex}`} className="text-xl sm:text-2xl text-gray-700 mb-10 sm:mb-12 tracking-wide font-semibold">{current.language}</p>
+            <h2 className="text-5xl sm:text-6xl font-bold text-indigo-600 mb-3 sm:mb-4 animate-fadeIn">{current.greeting}</h2>
+            <p className="text-xl sm:text-2xl text-gray-700 mb-10 sm:mb-12 tracking-wide font-semibold animate-fadeIn">{current.language}</p>
           </div>
 
           <div className="flex flex-wrap gap-4 sm:gap-5 justify-center">
@@ -53,7 +53,7 @@ export default function App() {
           </div>
         </div>
 
-        <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 gap-3 sm:gap-4">
+        <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 gap-3 sm:gap-4 mb-8 sm:mb-10">
           {GREETINGS.map((item, index) => (
             <button
               key={index}
@@ -68,6 +68,10 @@ export default function App() {
               <div className="text-sm sm:text-base break-words">{item.language}</div>
             </button>
           ))}
+        </div>
+
+        <div className="text-center text-sm sm:text-base text-gray-600">
+          <p>Click any language to jump directly • Use Previous/Next to navigate</p>
         </div>
       </div>
     </div>
