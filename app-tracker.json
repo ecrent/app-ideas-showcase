@@ -1,9 +1,9 @@
 {
   "meta": {
     "start_date": "2026-04-09",
-    "current_app_index": 12,
+    "current_app_index": 13,
     "total_apps": 82,
-    "completed_apps": 12
+    "completed_apps": 13
   },
   "apps": [
     {
@@ -156,10 +156,10 @@
       "name": "GitHub Status",
       "tier": 1,
       "days": 2,
-      "status": "in-progress",
+      "status": "completed",
       "start_date": "2026-05-11",
       "end_date": "2026-05-12",
-      "commits": 1,
+      "commits": 2,
       "description": "GitHub system status dashboard"
     },
     {
@@ -168,10 +168,10 @@
       "name": "Hello",
       "tier": 1,
       "days": 2,
-      "status": "upcoming",
-      "start_date": null,
-      "end_date": null,
-      "commits": 0,
+      "status": "in-progress",
+      "start_date": "2026-05-13",
+      "end_date": "2026-05-14",
+      "commits": 9,
       "description": "Hello world in multiple languages"
     },
     {

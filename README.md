@@ -21,7 +21,7 @@ working my way through all the projects from [florinpop17/app-ideas](https://git
 - [First DB App](https://ecrent.github.io/app-ideas-showcase/apps/11-first-db-app/)
 - [Flip Image](https://ecrent.github.io/app-ideas-showcase/apps/12-flip-image/)
 - [GitHub Status](https://ecrent.github.io/app-ideas-showcase/apps/13-github-status/)
-- Hello
+- Hello *(in progress)*
 - IOT Mailbox Simulator
 - JS Input Validation
 - JSON2CSV
