@@ -43,7 +43,7 @@ export default function App() {
           <p className="text-xl sm:text-2xl text-indigo-600 font-semibold">Greetings in 15 languages</p>
         </div>
 
-        <div className="bg-white rounded-3xl shadow-2xl p-8 sm:p-14 text-center mb-10 sm:mb-12 min-h-72 sm:min-h-80 flex flex-col justify-center items-center">
+        <div className="bg-white rounded-3xl shadow-2xl border border-indigo-100/50 p-8 sm:p-14 text-center mb-10 sm:mb-12 min-h-72 sm:min-h-80 flex flex-col justify-center items-center">
           <div className="text-8xl sm:text-9xl mb-6 sm:mb-8 animate-float origin-center">{current.flag}</div>
           <div className="space-y-3 w-full">
             <h2 className="text-5xl sm:text-6xl font-bold text-indigo-600 mb-3 sm:mb-4 animate-fadeIn">{current.greeting}</h2>
@@ -66,22 +66,25 @@ export default function App() {
           </div>
         </div>
 
-        <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 gap-3 sm:gap-4 mb-8 sm:mb-10">
-          {GREETINGS.map((item, index) => (
-            <button
-              key={index}
-              onClick={() => setSelectedIndex(index)}
-              className={`p-4 sm:p-5 rounded-xl font-semibold transition-all duration-200 transform active:scale-95 cursor-pointer focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-400 ${
-                index === selectedIndex
-                  ? 'bg-indigo-600 text-white shadow-xl scale-105 hover:bg-indigo-700'
-                  : 'bg-white text-gray-700 hover:bg-gray-50 shadow-md hover:shadow-lg hover:scale-105'
-              }`}
-            >
-              <div className="text-3xl sm:text-4xl mb-2 sm:mb-3">{item.flag}</div>
-              <div className="text-sm sm:text-base break-words">{item.language}</div>
-            </button>
-          ))}
+        <div className="bg-white/60 backdrop-blur-sm rounded-2xl p-6 sm:p-8 shadow-lg border border-indigo-100/30">
+          <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 gap-3 sm:gap-4">
+            {GREETINGS.map((item, index) => (
+              <button
+                key={index}
+                onClick={() => setSelectedIndex(index)}
+                className={`p-4 sm:p-5 rounded-xl font-semibold transition-all duration-200 transform active:scale-95 cursor-pointer focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-400 ${
+                  index === selectedIndex
+                    ? 'bg-indigo-600 text-white shadow-xl scale-105 hover:bg-indigo-700'
+                    : 'bg-white text-gray-700 hover:bg-gray-50 shadow-md hover:shadow-lg hover:scale-105'
+                }`}
+              >
+                <div className="text-3xl sm:text-4xl mb-2 sm:mb-3">{item.flag}</div>
+                <div className="text-sm sm:text-base break-words">{item.language}</div>
+              </button>
+            ))}
+          </div>
         </div>
+        <div className="h-2 sm:h-3"></div>
 
         <div className="text-center text-sm sm:text-base text-gray-500 mt-4 sm:mt-6">
           <p className="flex items-center justify-center gap-2 flex-wrap">
