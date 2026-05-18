@@ -104,6 +104,20 @@ export default function App() {
     return true
   })
 
+  const formatTimestamp = (date: Date) => {
+    const now = new Date()
+    const diffMs = now.getTime() - date.getTime()
+    const diffMins = Math.floor(diffMs / 60000)
+    const diffHours = Math.floor(diffMs / 3600000)
+    const diffDays = Math.floor(diffMs / 86400000)
+
+    if (diffMins < 1) return 'Just now'
+    if (diffMins < 60) return `${diffMins}m ago`
+    if (diffHours < 24) return `${diffHours}h ago`
+    if (diffDays < 7) return `${diffDays}d ago`
+    return date.toLocaleDateString([], { month: 'short', day: 'numeric' })
+  }
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-900 via-indigo-900 to-slate-900">
       {/* Header */}
@@ -156,19 +170,26 @@ export default function App() {
         {/* Filter Tabs */}
         {mailItems.length > 0 && (
           <div className="flex gap-2 mb-6 pb-6 border-b border-indigo-500/20">
-            {(['all', 'unread', 'read'] as FilterType[]).map(f => (
-              <button
-                key={f}
-                onClick={() => setFilter(f)}
-                className={`px-4 py-2 rounded-lg font-semibold transition duration-200 ${
-                  filter === f
-                    ? 'bg-gradient-to-r from-indigo-600 to-purple-600 text-white shadow-lg'
-                    : 'bg-indigo-600/20 text-indigo-200 hover:bg-indigo-600/30 border border-indigo-500/30'
-                }`}
-              >
-                {f.charAt(0).toUpperCase() + f.slice(1)}
-              </button>
-            ))}
+            {(['all', 'unread', 'read'] as FilterType[]).map(f => {
+              const counts = {
+                all: mailItems.length,
+                unread: mailItems.filter(m => !m.isRead).length,
+                read: mailItems.filter(m => m.isRead).length
+              }
+              return (
+                <button
+                  key={f}
+                  onClick={() => setFilter(f)}
+                  className={`px-4 py-2 rounded-lg font-semibold transition duration-200 ${
+                    filter === f
+                      ? 'bg-gradient-to-r from-indigo-600 to-purple-600 text-white shadow-lg'
+                      : 'bg-indigo-600/20 text-indigo-200 hover:bg-indigo-600/30 border border-indigo-500/30'
+                  }`}
+                >
+                  {f.charAt(0).toUpperCase() + f.slice(1)} ({counts[f]})
+                </button>
+              )
+            })}
           </div>
         )}
 
@@ -217,7 +238,7 @@ export default function App() {
                         {mail.subject}
                       </p>
                       <p className="text-xs text-indigo-300/50 mt-2">
-                        {mail.timestamp.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                        {formatTimestamp(mail.timestamp)}
                       </p>
                     </div>
                     <button
